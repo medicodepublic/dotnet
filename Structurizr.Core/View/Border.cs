@@ -2,10 +2,8 @@
 {
     public enum Border
     {
-
         Solid,
         Dashed,
         Dotted
-
     }
 }

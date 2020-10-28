@@ -2,12 +2,7 @@
 {
     internal class SequenceNumber
     {
-
         private SequenceCounter _counter = new SequenceCounter();
-
-        internal SequenceNumber()
-        {
-        }
 
         internal string GetNext()
         {
@@ -24,7 +19,7 @@
         {
             if (endAllParallelSequencesAndContinueNumbering)
             {
-                int sequence = _counter.Sequence;
+                var sequence = _counter.Sequence;
                 _counter = _counter.Parent;
                 _counter.Sequence = sequence;
             }
@@ -33,6 +28,5 @@
                 _counter = _counter.Parent;
             }
         }
-
     }
 }

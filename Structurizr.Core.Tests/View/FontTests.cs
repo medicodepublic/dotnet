@@ -3,24 +3,21 @@ using Xunit;
 
 namespace Structurizr.Core.Tests.View
 {
-
-    
     public class FontTests
     {
-
         private Font _font;
 
         [Fact]
         public void construction_WithANameOnly()
         {
-            this._font = new Font("Times New Roman");
+            _font = new Font("Times New Roman");
             Assert.Equal("Times New Roman", _font.Name);
         }
 
         [Fact]
         public void construction_WithANameAndUrl()
         {
-            this._font = new Font("Open Sans", "https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+            _font = new Font("Open Sans", "https://fonts.googleapis.com/css?family=Open+Sans:400,700");
             Assert.Equal("Open Sans", _font.Name);
             Assert.Equal("https://fonts.googleapis.com/css?family=Open+Sans:400,700", _font.Url);
         }
@@ -57,7 +54,5 @@ namespace Structurizr.Core.Tests.View
             _font.Url = " ";
             Assert.Null(_font.Url);
         }
-
     }
-
 }

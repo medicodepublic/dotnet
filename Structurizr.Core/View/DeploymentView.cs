@@ -1,37 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Structurizr
 {
-
     /// <summary>
-    /// A deployment view, used to show the mapping of container instances to deployment nodes.
+    ///     A deployment view, used to show the mapping of container instances to deployment nodes.
     /// </summary>
     public sealed class DeploymentView : View
     {
-
-        public override Model Model { get; set; }
-
         private IList<Animation> _animations = new List<Animation>();
 
-        [DataMember(Name = "animations", EmitDefaultValue = false)]
-        public IList<Animation> Animations
-        {
-            get { return new List<Animation>(_animations); }
-
-            internal set { _animations = new List<Animation>(value); }
-        }
-
-        /// <summary>
-        /// The name of the environment that this deployment view is for (e.g. "Development", "Live", etc).
-        /// </summary>
-        [DataMember(Name = "environment", EmitDefaultValue = false)]
-        public string Environment { get; set; }
-
-        DeploymentView()
+        private DeploymentView()
         {
         }
 
@@ -46,25 +27,52 @@ namespace Structurizr
             Model = softwareSystem.Model;
         }
 
-        /// <summary>
-        /// Adds all of the top-level deployment nodes to this view, for the same deployment environment (if set). 
-        /// </summary>
-        public void AddAllDeploymentNodes()
+        public override Model Model { get; set; }
+
+        [DataMember(Name = "animations", EmitDefaultValue = false)]
+        public IList<Animation> Animations
         {
-            foreach (DeploymentNode deploymentNode in Model.DeploymentNodes)
+            get => new List<Animation>(_animations);
+
+            internal set => _animations = new List<Animation>(value);
+        }
+
+        /// <summary>
+        ///     The name of the environment that this deployment view is for (e.g. "Development", "Live", etc).
+        /// </summary>
+        [DataMember(Name = "environment", EmitDefaultValue = false)]
+        public string Environment { get; set; }
+
+        public override string Name
+        {
+            get
             {
-                if (deploymentNode.Parent == null)
-                {
-                    if (this.Environment == null || this.Environment.Equals(deploymentNode.Environment))
-                    {
-                        Add(deploymentNode);
-                    }
-                }
+                string name;
+
+                if (SoftwareSystem != null)
+                    name = SoftwareSystem.Name + " - Deployment";
+                else
+                    name = "Deployment";
+
+                if (!string.IsNullOrEmpty(Environment)) name = name + " - " + Environment;
+
+                return name;
             }
         }
 
         /// <summary>
-        /// Adds a deployment node to this view.
+        ///     Adds all of the top-level deployment nodes to this view, for the same deployment environment (if set).
+        /// </summary>
+        public void AddAllDeploymentNodes()
+        {
+            foreach (var deploymentNode in Model.DeploymentNodes)
+                if (deploymentNode.Parent == null)
+                    if (Environment == null || Environment.Equals(deploymentNode.Environment))
+                        Add(deploymentNode);
+        }
+
+        /// <summary>
+        ///     Adds a deployment node to this view.
         /// </summary>
         /// <param name="deploymentNode">the DeploymentNode to add</param>
         public void Add(DeploymentNode deploymentNode)
@@ -73,19 +81,16 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Adds a deployment node to this view.
+        ///     Adds a deployment node to this view.
         /// </summary>
         /// <param name="deploymentNode">the DeploymentNode to add</param>
         public void Add(DeploymentNode deploymentNode, bool addRelationships)
         {
-            if (deploymentNode == null)
-            {
-                throw new ArgumentException("A deployment node must be specified.");
-            }
+            if (deploymentNode == null) throw new ArgumentException("A deployment node must be specified.");
 
             if (AddContainerInstancesAndDeploymentNodesAndInfrastructureNodes(deploymentNode, addRelationships))
             {
-                Element parent = deploymentNode.Parent;
+                var parent = deploymentNode.Parent;
                 while (parent != null)
                 {
                     AddElement(parent, false);
@@ -94,11 +99,13 @@ namespace Structurizr
             }
         }
 
-        private bool AddContainerInstancesAndDeploymentNodesAndInfrastructureNodes(DeploymentNode deploymentNode, bool addRelationships)
+        private bool AddContainerInstancesAndDeploymentNodesAndInfrastructureNodes(DeploymentNode deploymentNode,
+            bool addRelationships)
         {
-            bool hasContainersOrInfrastructureNodes = false;
-            foreach (ContainerInstance containerInstance in deploymentNode.ContainerInstances) {
-                Container container = containerInstance.Container;
+            var hasContainersOrInfrastructureNodes = false;
+            foreach (var containerInstance in deploymentNode.ContainerInstances)
+            {
+                var container = containerInstance.Container;
                 if (SoftwareSystem == null || container.Parent.Equals(SoftwareSystem))
                 {
                     AddElement(containerInstance, addRelationships);
@@ -106,60 +113,48 @@ namespace Structurizr
                 }
             }
 
-            foreach (InfrastructureNode infrastructureNode in deploymentNode.InfrastructureNodes) {
+            foreach (var infrastructureNode in deploymentNode.InfrastructureNodes)
+            {
                 AddElement(infrastructureNode, addRelationships);
                 hasContainersOrInfrastructureNodes = true;
             }
 
-            foreach (DeploymentNode child in deploymentNode.Children)
-            {
-                hasContainersOrInfrastructureNodes = hasContainersOrInfrastructureNodes | AddContainerInstancesAndDeploymentNodesAndInfrastructureNodes(child, addRelationships);
-            }
+            foreach (var child in deploymentNode.Children)
+                hasContainersOrInfrastructureNodes = hasContainersOrInfrastructureNodes |
+                                                     AddContainerInstancesAndDeploymentNodesAndInfrastructureNodes(
+                                                         child, addRelationships);
 
-            if (hasContainersOrInfrastructureNodes)
-            {
-                AddElement(deploymentNode, addRelationships);
-            }
+            if (hasContainersOrInfrastructureNodes) AddElement(deploymentNode, addRelationships);
 
             return hasContainersOrInfrastructureNodes;
         }
 
         /// <summary>
-        /// Removes a deployment node from this view.
+        ///     Removes a deployment node from this view.
         /// </summary>
         /// <param name="deploymentNode">the DeploymentNode to remove</param>
         public void Remove(DeploymentNode deploymentNode)
         {
-            foreach (ContainerInstance containerInstance in deploymentNode.ContainerInstances)
-            {
-                Remove(containerInstance);
-            }
+            foreach (var containerInstance in deploymentNode.ContainerInstances) Remove(containerInstance);
 
-            foreach (InfrastructureNode infrastructureNode in deploymentNode.InfrastructureNodes)
-            {
-                Remove(infrastructureNode);
-            }
+            foreach (var infrastructureNode in deploymentNode.InfrastructureNodes) Remove(infrastructureNode);
 
-            foreach (DeploymentNode child in deploymentNode.Children)
-            {
-                Remove(child);
-            }
+            foreach (var child in deploymentNode.Children) Remove(child);
 
             RemoveElement(deploymentNode);
         }
 
         /// <summary>
-        /// Removes an infrastructure node from this view.
+        ///     Removes an infrastructure node from this view.
         /// </summary>
         /// <param name="infrastructureNode">the InfrastructureNode to remove</param>
-
         public void Remove(InfrastructureNode infrastructureNode)
         {
             RemoveElement(infrastructureNode);
         }
 
         /// <summary>
-        /// Removes an container instance from this view.
+        ///     Removes an container instance from this view.
         /// </summary>
         /// <param name="containerInstance">the ContainerInstance to remove</param>
         public void Remove(ContainerInstance containerInstance)
@@ -168,54 +163,43 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Adds an animation step, with the specified container instances and infrastructure nodes.
+        ///     Adds an animation step, with the specified container instances and infrastructure nodes.
         /// </summary>
         /// <param name="containerInstances">the container instances that should be shown in the animation step</param>
         /// <param name="infrastructureNodes">the infrastructure nodes that should be shown in the animation step</param>
         public void AddAnimation(ContainerInstance[] containerInstances, InfrastructureNode[] infrastructureNodes)
         {
-            if ((containerInstances == null || containerInstances.Length == 0) && (infrastructureNodes == null || infrastructureNodes.Length == 0))
-            {
+            if ((containerInstances == null || containerInstances.Length == 0) &&
+                (infrastructureNodes == null || infrastructureNodes.Length == 0))
                 throw new ArgumentException("One or more container instances/infrastructure nodes must be specified.");
-            }
 
-            List<Element> elements = new List<Element>();
-            if (containerInstances != null)
-            {
-                elements.AddRange(containerInstances);
-            }
-            if (infrastructureNodes != null)
-            {
-                elements.AddRange(infrastructureNodes);
-            }
+            var elements = new List<Element>();
+            if (containerInstances != null) elements.AddRange(containerInstances);
+            if (infrastructureNodes != null) elements.AddRange(infrastructureNodes);
 
             addAnimationStep(elements.ToArray());
         }
 
         /// <summary>
-        /// Adds an animation step, with the specified infrastructure nodes.
+        ///     Adds an animation step, with the specified infrastructure nodes.
         /// </summary>
         /// <param name="infrastructureNodes">the infrastructure nodes that should be shown in the animation step</param>
         public void AddAnimation(params InfrastructureNode[] infrastructureNodes)
         {
             if (infrastructureNodes == null || infrastructureNodes.Length == 0)
-            {
                 throw new ArgumentException("One or more infrastructure nodes must be specified.");
-            }
 
             AddAnimation(new ContainerInstance[0], infrastructureNodes);
         }
 
         /// <summary>
-        /// Adds an animation step, with the specified container instances.
+        ///     Adds an animation step, with the specified container instances.
         /// </summary>
         /// <param name="containerInstances">the container instances that should be shown in the animation step</param>
         public void AddAnimation(params ContainerInstance[] containerInstances)
         {
             if (containerInstances == null || containerInstances.Length == 0)
-            {
                 throw new ArgumentException("One or more container instances must be specified.");
-            }
 
             AddAnimation(containerInstances, new InfrastructureNode[0]);
         }
@@ -223,18 +207,14 @@ namespace Structurizr
         private void addAnimationStep(params Element[] elements)
         {
             ISet<string> elementIdsInPreviousAnimationSteps = new HashSet<string>();
-            foreach (Animation animationStep in Animations) {
-                foreach (string element in animationStep.Elements)
-                {
-                    elementIdsInPreviousAnimationSteps.Add(element);
-                }
-            }
+            foreach (var animationStep in Animations)
+            foreach (var element in animationStep.Elements)
+                elementIdsInPreviousAnimationSteps.Add(element);
 
             ISet<Element> elementsInThisAnimationStep = new HashSet<Element>();
             ISet<Relationship> relationshipsInThisAnimationStep = new HashSet<Relationship>();
 
-            foreach (Element element in elements)
-            {
+            foreach (var element in elements)
                 if (IsElementInView(element) && !elementIdsInPreviousAnimationSteps.Contains(element.Id))
                 {
                     elementIdsInPreviousAnimationSteps.Add(element.Id);
@@ -252,81 +232,41 @@ namespace Structurizr
                         deploymentNode = deploymentNode.Parent;
                     }
                 }
-            }
 
             if (elementsInThisAnimationStep.Count == 0)
-            {
                 throw new ArgumentException("None of the specified container instances exist in this view.");
-            }
 
-            foreach (RelationshipView relationshipView in Relationships)
-            {
+            foreach (var relationshipView in Relationships)
                 if (
-                        (elementsInThisAnimationStep.Contains(relationshipView.Relationship.Source) && elementIdsInPreviousAnimationSteps.Contains(relationshipView.Relationship.Destination.Id)) ||
-                        (elementIdsInPreviousAnimationSteps.Contains(relationshipView.Relationship.Source.Id) && elementsInThisAnimationStep.Contains(relationshipView.Relationship.Destination))
+                    elementsInThisAnimationStep.Contains(relationshipView.Relationship.Source) &&
+                    elementIdsInPreviousAnimationSteps.Contains(relationshipView.Relationship.Destination.Id) ||
+                    elementIdsInPreviousAnimationSteps.Contains(relationshipView.Relationship.Source.Id) &&
+                    elementsInThisAnimationStep.Contains(relationshipView.Relationship.Destination)
                 )
-                {
                     relationshipsInThisAnimationStep.Add(relationshipView.Relationship);
-                }
-            }
 
-            _animations.Add(new Animation(Animations.Count + 1, elementsInThisAnimationStep, relationshipsInThisAnimationStep));
+            _animations.Add(new Animation(Animations.Count + 1, elementsInThisAnimationStep,
+                relationshipsInThisAnimationStep));
         }
 
-        
+
         private DeploymentNode findDeploymentNode(Element e)
         {
-            foreach (Element element in Model.GetElements())
-            {
+            foreach (var element in Model.GetElements())
                 if (element is DeploymentNode)
                 {
-                    DeploymentNode deploymentNode = (DeploymentNode) element;
+                    var deploymentNode = (DeploymentNode) element;
 
                     if (e is ContainerInstance)
-                    {
                         if (deploymentNode.ContainerInstances.Contains(e))
-                        {
                             return deploymentNode;
-                        }
-                    }
 
                     if (e is InfrastructureNode)
-                    {
                         if (deploymentNode.InfrastructureNodes.Contains(e))
-                        {
                             return deploymentNode;
-                        }
-                    }
                 }
-            }
 
             return null;
         }
-
-        public override string Name
-        {
-            get
-            {
-                string name;
-
-                if (SoftwareSystem != null)
-                {
-                    name = SoftwareSystem.Name + " - Deployment";
-                }
-                else
-                {
-                    name = "Deployment";
-                }
-
-                if (!String.IsNullOrEmpty(Environment))
-                {
-                    name = name + " - " + Environment;
-                }
-
-                return name;
-
-            }
-        }
-        
     }
 }

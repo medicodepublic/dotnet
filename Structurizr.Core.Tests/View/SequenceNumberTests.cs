@@ -2,14 +2,12 @@
 
 namespace Structurizr.Core.Tests
 {
-    
     public class SequenceNumberTests
     {
-
         [Fact]
         public void Test_Increment()
         {
-            SequenceNumber sequenceNumber = new SequenceNumber();
+            var sequenceNumber = new SequenceNumber();
             Assert.Equal("1", sequenceNumber.GetNext());
             Assert.Equal("2", sequenceNumber.GetNext());
         }
@@ -17,7 +15,7 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_ParallelSequences()
         {
-            SequenceNumber sequenceNumber = new SequenceNumber();
+            var sequenceNumber = new SequenceNumber();
             Assert.Equal("1", sequenceNumber.GetNext());
 
             sequenceNumber.StartParallelSequence();
@@ -30,6 +28,5 @@ namespace Structurizr.Core.Tests
 
             Assert.Equal("3", sequenceNumber.GetNext());
         }
-
     }
 }

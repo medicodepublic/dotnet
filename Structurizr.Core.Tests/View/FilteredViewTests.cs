@@ -2,16 +2,14 @@
 
 namespace Structurizr.Core.Tests.View
 {
-
     public class FilteredViewTests : AbstractTestBase
     {
-    
         [Fact]
         public void Test_Construction()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Name", "Description");
-            SystemContextView systemContextView = Views.CreateSystemContextView(softwareSystem, "SystemContext", "Description");
-            FilteredView filteredView = Views.CreateFilteredView(
+            var softwareSystem = Model.AddSoftwareSystem("Name", "Description");
+            var systemContextView = Views.CreateSystemContextView(softwareSystem, "SystemContext", "Description");
+            var filteredView = Views.CreateFilteredView(
                 systemContextView,
                 "CurrentStateSystemContext",
                 "The system context as-is.",
@@ -28,7 +26,5 @@ namespace Structurizr.Core.Tests.View
             Assert.True(filteredView.Tags.Contains("v2"));
             Assert.True(filteredView.Tags.Contains("v3"));
         }
-       
     }
-    
 }

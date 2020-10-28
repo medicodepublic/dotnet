@@ -2,12 +2,9 @@
 
 namespace Structurizr.Core.Tests
 {
-
-    
     public class SystemContextViewTests : AbstractTestBase
     {
-
-        private SoftwareSystem softwareSystem;
+        private readonly SoftwareSystem softwareSystem;
         private SystemContextView view;
 
         public SystemContextViewTests()
@@ -38,8 +35,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void test_AddAllSoftwareSystems_AddsAllSoftwareSystems_WhenThereAreSomeSoftwareSystemsInTheModel()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
+            var softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
 
             view.AddAllSoftwareSystems();
 
@@ -60,8 +57,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void test_AddAllPeople_AddsAllPeople_WhenThereAreSomePeopleInTheModel()
         {
-            Person userA = Model.AddPerson(Location.External, "User A", "Description");
-            Person userB = Model.AddPerson(Location.External, "User B", "Description");
+            var userA = Model.AddPerson(Location.External, "User A", "Description");
+            var userB = Model.AddPerson(Location.External, "User B", "Description");
 
             view.AddAllPeople();
 
@@ -80,12 +77,13 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void test_AddAllElements_AddsAllSoftwareSystemsAndPeople_WhenThereAreSomeSoftwareSystemsAndPeopleInTheModel()
+        public void
+            test_AddAllElements_AddsAllSoftwareSystemsAndPeople_WhenThereAreSomeSoftwareSystemsAndPeopleInTheModel()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
-            Person userA = Model.AddPerson(Location.External, "User A", "Description");
-            Person userB = Model.AddPerson(Location.External, "User B", "Description");
+            var softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
+            var userA = Model.AddPerson(Location.External, "User A", "Description");
+            var userB = Model.AddPerson(Location.External, "User B", "Description");
 
             view.AddAllElements();
 
@@ -116,10 +114,10 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddNearestNeighbours_AddsNearestNeighbours_WhenThereAreSomeNearestNeighbours()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem("System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem("System B", "Description");
-            Person userA = Model.AddPerson("User A", "Description");
-            Person userB = Model.AddPerson("User B", "Description");
+            var softwareSystemA = Model.AddSoftwareSystem("System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem("System B", "Description");
+            var userA = Model.AddPerson("User A", "Description");
+            var userB = Model.AddPerson("User B", "Description");
 
             // userA -> systemA -> system -> systemB -> userB
             userA.Uses(softwareSystemA, "");
@@ -129,16 +127,16 @@ namespace Structurizr.Core.Tests
 
             // userA -> systemA -> web application -> systemB -> userB
             // web application -> database
-            Container webApplication = softwareSystem.AddContainer("Web Application", "", "");
-            Container database = softwareSystem.AddContainer("Database", "", "");
+            var webApplication = softwareSystem.AddContainer("Web Application", "", "");
+            var database = softwareSystem.AddContainer("Database", "", "");
             softwareSystemA.Uses(webApplication, "");
             webApplication.Uses(softwareSystemB, "");
             webApplication.Uses(database, "");
 
             // userA -> systemA -> controller -> service -> repository -> database
-            Component controller = webApplication.AddComponent("Controller", "");
-            Component service = webApplication.AddComponent("Service", "");
-            Component repository = webApplication.AddComponent("Repository", "");
+            var controller = webApplication.AddComponent("Controller", "");
+            var service = webApplication.AddComponent("Service", "");
+            var repository = webApplication.AddComponent("Repository", "");
             softwareSystemA.Uses(controller, "");
             controller.Uses(service, "");
             service.Uses(repository, "");
@@ -162,7 +160,5 @@ namespace Structurizr.Core.Tests
             Assert.True(view.Elements.Contains(new ElementView(softwareSystemA)));
             Assert.True(view.Elements.Contains(new ElementView(softwareSystem)));
         }
-
     }
-
 }

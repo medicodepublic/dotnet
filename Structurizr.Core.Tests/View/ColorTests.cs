@@ -1,13 +1,9 @@
-﻿
-using Xunit;
+﻿using Xunit;
 
 namespace Structurizr.Core.Tests
 {
-
-    
     public class ColorTests
     {
-
         [Fact]
         public void Test_IsHexColorCode_ReturnsFalse_WhenPassedNull()
         {
@@ -35,7 +31,5 @@ namespace Structurizr.Core.Tests
             Assert.True(Color.IsHexColorCode("#ABCDEF"));
             Assert.True(Color.IsHexColorCode("#123456"));
         }
-
     }
-
 }

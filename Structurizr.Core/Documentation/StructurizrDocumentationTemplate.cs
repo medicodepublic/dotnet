@@ -2,40 +2,36 @@
 
 namespace Structurizr.Documentation
 {
-    
     /// <summary>
-    /// A simple documentation template, based upon the "software guidebook" concept in Simon Brown's
-    /// <a href="https://leanpub.com/visualising-software-architecture">Software Architecture for Developers</a>
-    /// book, with the following sections:
-    /// 
-    ///  - Context (1)
-    ///  - Functional Overview (2)
-    ///  - Quality Attributes (2)
-    ///  - Constraints (2)
-    ///  - Principles (2)
-    ///  - Software Architecture (3)
-    ///  - Containers (3)
-    ///  - Components (3)
-    ///  - Code (3)
-    ///  - Data (3)
-    ///  - Infrastructure Architecture (4)
-    ///  - Deployment (4)
-    ///  - Development Environment (4)
-    ///  - Operation and Support (4)
-    ///  - Decision Log (5)
-    /// 
-    /// The number in parentheses () represents the grouping, which is simply used to colour code
-    /// section navigation buttons when rendered.
+    ///     A simple documentation template, based upon the "software guidebook" concept in Simon Brown's
+    ///     <a href="https://leanpub.com/visualising-software-architecture">Software Architecture for Developers</a>
+    ///     book, with the following sections:
+    ///     - Context (1)
+    ///     - Functional Overview (2)
+    ///     - Quality Attributes (2)
+    ///     - Constraints (2)
+    ///     - Principles (2)
+    ///     - Software Architecture (3)
+    ///     - Containers (3)
+    ///     - Components (3)
+    ///     - Code (3)
+    ///     - Data (3)
+    ///     - Infrastructure Architecture (4)
+    ///     - Deployment (4)
+    ///     - Development Environment (4)
+    ///     - Operation and Support (4)
+    ///     - Decision Log (5)
+    ///     The number in parentheses () represents the grouping, which is simply used to colour code
+    ///     section navigation buttons when rendered.
     /// </summary>
     public class StructurizrDocumentationTemplate : DocumentationTemplate
     {
-
         public StructurizrDocumentationTemplate(Workspace workspace) : base(workspace)
         {
         }
 
         /// <summary>
-        /// Adds a "Context" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Context" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -46,7 +42,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Context" section relating to a SoftwareSystem.
+        ///     Adds a "Context" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -56,9 +52,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Context", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Functional Overview" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Functional Overview" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -69,7 +65,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Functional Overview" section relating to a SoftwareSystem.
+        ///     Adds a "Functional Overview" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -79,9 +75,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Functional Overview", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Quality Attributes" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Quality Attributes" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -92,7 +88,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Quality Attributes" section relating to a SoftwareSystem.
+        ///     Adds a "Quality Attributes" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -102,9 +98,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Quality Attributes", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Constraints" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Constraints" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -115,7 +111,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Constraints" section relating to a SoftwareSystem.
+        ///     Adds a "Constraints" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -125,9 +121,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Constraints", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Principles" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Principles" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -138,7 +134,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Principles" section relating to a SoftwareSystem.
+        ///     Adds a "Principles" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -148,9 +144,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Principles", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Software Architecture" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Software Architecture" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -161,7 +157,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Software Architecture" section relating to a SoftwareSystem.
+        ///     Adds a "Software Architecture" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -171,9 +167,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Software Architecture", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Containers" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Containers" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -184,7 +180,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Containers" section relating to a SoftwareSystem.
+        ///     Adds a "Containers" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -194,9 +190,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Containers", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Components" section relating to a Container from a file.
+        ///     Adds a "Components" section relating to a Container from a file.
         /// </summary>
         /// <param name="container">the Container the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -207,7 +203,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Components" section relating to a Container.
+        ///     Adds a "Components" section relating to a Container.
         /// </summary>
         /// <param name="container">the Container the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -217,9 +213,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(container, "Components", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Code" section relating to a Component from a file.
+        ///     Adds a "Code" section relating to a Component from a file.
         /// </summary>
         /// <param name="component">the Component the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -230,7 +226,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Code" section relating to a Component.
+        ///     Adds a "Code" section relating to a Component.
         /// </summary>
         /// <param name="component">the Component the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -240,9 +236,9 @@ namespace Structurizr.Documentation
         {
             return AddSection(component, "Code", format, content);
         }
-        
+
         /// <summary>
-        /// Adds a "Data" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Data" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -253,7 +249,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Data" section relating to a SoftwareSystem.
+        ///     Adds a "Data" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -263,32 +259,34 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Data", format, content);
         }
-        
+
         /// <summary>
-        /// Adds an "Infrastructure Architecture" section relating to a SoftwareSystem from a file.
+        ///     Adds an "Infrastructure Architecture" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
         /// <returns>a documentation Section</returns>
-        public Section AddInfrastructureArchitectureSection(SoftwareSystem softwareSystem, params FileSystemInfo[] files)
+        public Section AddInfrastructureArchitectureSection(SoftwareSystem softwareSystem,
+            params FileSystemInfo[] files)
         {
             return AddSection(softwareSystem, "Infrastructure Architecture", files);
         }
 
         /// <summary>
-        /// Adds an "Infrastructure Architecture" section relating to a SoftwareSystem.
+        ///     Adds an "Infrastructure Architecture" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
         /// <param name="content">a string containing the documentation content</param>
         /// <returns>a documentation Section</returns>
-        public Section AddInfrastructureArchitectureSection(SoftwareSystem softwareSystem, Format format, string content)
+        public Section AddInfrastructureArchitectureSection(SoftwareSystem softwareSystem, Format format,
+            string content)
         {
             return AddSection(softwareSystem, "Infrastructure Architecture", format, content);
         }
 
         /// <summary>
-        /// Adds a "Deployment" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Deployment" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -299,7 +297,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Deployment" section relating to a SoftwareSystem.
+        ///     Adds a "Deployment" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -311,7 +309,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Development Environment" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Development Environment" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -322,7 +320,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Development Environment" section relating to a SoftwareSystem.
+        ///     Adds a "Development Environment" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -334,7 +332,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds an "Operation and Support" section relating to a SoftwareSystem from a file.
+        ///     Adds an "Operation and Support" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -345,7 +343,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds an "Operation and Support" section relating to a SoftwareSystem.
+        ///     Adds an "Operation and Support" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -357,7 +355,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Decision Log" section relating to a SoftwareSystem from a file.
+        ///     Adds a "Decision Log" section relating to a SoftwareSystem from a file.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="files">one or more FileSystemInfo objects that point to the documentation content</param>
@@ -368,7 +366,7 @@ namespace Structurizr.Documentation
         }
 
         /// <summary>
-        /// Adds a "Decision Log" section relating to a SoftwareSystem.
+        ///     Adds a "Decision Log" section relating to a SoftwareSystem.
         /// </summary>
         /// <param name="softwareSystem">the SoftwareSystem the documentation relates to</param>
         /// <param name="format">the format of the documentation content</param>
@@ -378,7 +376,5 @@ namespace Structurizr.Documentation
         {
             return AddSection(softwareSystem, "Decision Log", format, content);
         }
-
     }
-    
 }

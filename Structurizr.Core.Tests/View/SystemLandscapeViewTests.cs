@@ -1,14 +1,11 @@
-﻿using Xunit;
-using System;
+﻿using System;
+using Xunit;
 
 namespace Structurizr.Core.Tests
 {
-
-    
     public class SystemLandscapeViewTests : AbstractTestBase
     {
-
-        private SystemLandscapeView view;
+        private readonly SystemLandscapeView view;
 
         public SystemLandscapeViewTests()
         {
@@ -62,8 +59,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllSoftwareSystems_AddsAllSoftwareSystems_WhenThereAreSomeSoftwareSystemsInTheModel()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
+            var softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
 
             view.AddAllSoftwareSystems();
 
@@ -82,8 +79,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllPeople_AddsAllPeople_WhenThereAreSomePeopleInTheModel()
         {
-            Person userA = Model.AddPerson("User A", "Description");
-            Person userB = Model.AddPerson("User B", "Description");
+            var userA = Model.AddPerson("User A", "Description");
+            var userB = Model.AddPerson("User B", "Description");
 
             view.AddAllPeople();
 
@@ -100,10 +97,11 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void Test_AddAllElements_AddsAllSoftwareSystemsAndPeople_WhenThereAreSomeSoftwareSystemsAndPeopleInTheModel()
+        public void
+            Test_AddAllElements_AddsAllSoftwareSystemsAndPeople_WhenThereAreSomeSoftwareSystemsAndPeopleInTheModel()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
-            Person person = Model.AddPerson("Person", "Description");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+            var person = Model.AddPerson("Person", "Description");
 
             view.AddAllElements();
 
@@ -111,7 +109,5 @@ namespace Structurizr.Core.Tests
             Assert.True(view.Elements.Contains(new ElementView(softwareSystem)));
             Assert.True(view.Elements.Contains(new ElementView(person)));
         }
-
     }
-
 }

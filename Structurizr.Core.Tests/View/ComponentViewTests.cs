@@ -2,14 +2,11 @@
 
 namespace Structurizr.Core.Tests
 {
-
-    
     public class ComponentViewTests : AbstractTestBase
     {
-
-        private SoftwareSystem softwareSystem;
-        private Container webApplication;
+        private readonly SoftwareSystem softwareSystem;
         private ComponentView view;
+        private readonly Container webApplication;
 
         public ComponentViewTests()
         {
@@ -41,8 +38,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllSoftwareSystems_AddsAllSoftwareSystems_WhenThereAreSomeSoftwareSystemsInTheModel()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
+            var softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
 
             view.AddAllSoftwareSystems();
 
@@ -62,8 +59,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllPeople_AddsAllPeople_WhenThereAreSomePeopleInTheModel()
         {
-            Person userA = Model.AddPerson(Location.External, "User A", "Description");
-            Person userB = Model.AddPerson(Location.External, "User B", "Description");
+            var userA = Model.AddPerson(Location.External, "User A", "Description");
+            var userB = Model.AddPerson(Location.External, "User B", "Description");
 
             view.AddAllPeople();
 
@@ -81,15 +78,16 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void Test_AddAllElements_AddsAllSoftwareSystemsAndPeopleAndContainersAndComponents_WhenThereAreSomeSoftwareSystemsAndPeopleAndContainersAndComponentsInTheModel()
+        public void
+            Test_AddAllElements_AddsAllSoftwareSystemsAndPeopleAndContainersAndComponents_WhenThereAreSomeSoftwareSystemsAndPeopleAndContainersAndComponentsInTheModel()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
-            Person userA = Model.AddPerson(Location.External, "User A", "Description");
-            Person userB = Model.AddPerson(Location.External, "User B", "Description");
-            Container database = softwareSystem.AddContainer("Database", "Does something", "MySQL");
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
-            Component componentB = webApplication.AddComponent("Component B", "Does something", "Java");
+            var softwareSystemA = Model.AddSoftwareSystem(Location.External, "System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem(Location.External, "System B", "Description");
+            var userA = Model.AddPerson(Location.External, "User A", "Description");
+            var userB = Model.AddPerson(Location.External, "User B", "Description");
+            var database = softwareSystem.AddContainer("Database", "Does something", "MySQL");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentB = webApplication.AddComponent("Component B", "Does something", "Java");
 
             view.AddAllElements();
 
@@ -114,8 +112,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllContainers_AddsAllContainers_WhenThereAreSomeContainers()
         {
-            Container database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
-            Container fileSystem = softwareSystem.AddContainer("File System", "Stores something else", "");
+            var database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
+            var fileSystem = softwareSystem.AddContainer("File System", "Stores something else", "");
 
             view.AddAllContainers();
 
@@ -135,8 +133,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllComponents_AddsAllComponents_WhenThereAreSomeComponents()
         {
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
-            Component componentB = webApplication.AddComponent("Component B", "Does something", "Java");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentB = webApplication.AddComponent("Component B", "Does something", "Java");
 
             view.AddAllComponents();
 
@@ -149,14 +147,14 @@ namespace Structurizr.Core.Tests
         public void Test_Add_DoesNothing_WhenANullContainerIsSpecified()
         {
             Assert.Equal(0, view.Elements.Count);
-            view.Add((Container)null);
+            view.Add((Container) null);
             Assert.Equal(0, view.Elements.Count);
         }
 
         [Fact]
         public void Test_Add_AddsTheContainer_WhenTheContainerIsNoInTheViewAlready()
         {
-            Container database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
+            var database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
 
             Assert.Equal(0, view.Elements.Count);
             view.Add(database);
@@ -167,7 +165,7 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Add_DoesNothing_WhenTheSpecifiedContainerIsAlreadyInTheView()
         {
-            Container database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
+            var database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
             view.Add(database);
             Assert.Equal(1, view.Elements.Count);
             Assert.True(view.Elements.Contains(new ElementView(database)));
@@ -180,14 +178,14 @@ namespace Structurizr.Core.Tests
         public void Test_Remove_DoesNothing_WhenANullContainerIsPassed()
         {
             Assert.Equal(0, view.Elements.Count);
-            view.Remove((Container)null);
+            view.Remove((Container) null);
             Assert.Equal(0, view.Elements.Count);
         }
 
         [Fact]
         public void Test_Remove_RemovesTheContainer_WhenTheContainerIsInTheView()
         {
-            Container database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
+            var database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
             view.Add(database);
             Assert.Equal(1, view.Elements.Count);
             Assert.True(view.Elements.Contains(new ElementView(database)));
@@ -199,8 +197,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Remove_DoesNothing_WhenTheContainerIsNotInTheView()
         {
-            Container database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
-            Container fileSystem = softwareSystem.AddContainer("File System", "Stores something else", "");
+            var database = softwareSystem.AddContainer("Database", "Stores something", "MySQL");
+            var fileSystem = softwareSystem.AddContainer("File System", "Stores something else", "");
 
             view.Add(database);
             Assert.Equal(1, view.Elements.Count);
@@ -215,14 +213,14 @@ namespace Structurizr.Core.Tests
         public void Test_Add_DoesNothing_WhenANullComponentIsSpecified()
         {
             Assert.Equal(0, view.Elements.Count);
-            view.Add((Component)null);
+            view.Add((Component) null);
             Assert.Equal(0, view.Elements.Count);
         }
 
         [Fact]
         public void Test_Add_AddsTheComponent_WhenTheComponentIsNotInTheViewAlready()
         {
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
 
             Assert.Equal(0, view.Elements.Count);
             view.Add(componentA);
@@ -233,7 +231,7 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Add_DoesNothing_WhenTheSpecifiedComponentIsAlreadyInTheView()
         {
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
             view.Add(componentA);
             Assert.Equal(1, view.Elements.Count);
             Assert.True(view.Elements.Contains(new ElementView(componentA)));
@@ -253,14 +251,14 @@ namespace Structurizr.Core.Tests
         public void Test_Remove_DoesNothing_WhenANullComponentIsPassed()
         {
             Assert.Equal(0, view.Elements.Count);
-            view.Remove((Component)null);
+            view.Remove((Component) null);
             Assert.Equal(0, view.Elements.Count);
         }
 
         [Fact]
         public void Test_Remove_RemovesTheComponent_WhenTheComponentIsInTheView()
         {
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
             view.Add(componentA);
             Assert.Equal(1, view.Elements.Count);
             Assert.True(view.Elements.Contains(new ElementView(componentA)));
@@ -270,10 +268,11 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void Test_Remove_RemovesTheComponentAndRelationships_WhenTheComponentIsInTheViewAndHasArelationshipToAnotherElement()
+        public void
+            Test_Remove_RemovesTheComponentAndRelationships_WhenTheComponentIsInTheViewAndHasArelationshipToAnotherElement()
         {
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
-            Component componentB = webApplication.AddComponent("Component B", "Does something", "Java");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentB = webApplication.AddComponent("Component B", "Does something", "Java");
             componentA.Uses(componentB, "uses");
 
             view.Add(componentA);
@@ -289,8 +288,8 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Remove_DoesNothing_WhenTheComponentIsNotInTheView()
         {
-            Component componentA = webApplication.AddComponent("Component A", "Does something", "Java");
-            Component componentB = webApplication.AddComponent("Component B", "Does something", "Java");
+            var componentA = webApplication.AddComponent("Component A", "Does something", "Java");
+            var componentB = webApplication.AddComponent("Component B", "Does something", "Java");
 
             view.Add(componentA);
             Assert.Equal(1, view.Elements.Count);
@@ -320,10 +319,10 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddNearestNeighbours_AddsNearestNeighbours_WhenThereAreSomeNearestNeighbours()
         {
-            SoftwareSystem softwareSystemA = Model.AddSoftwareSystem("System A", "Description");
-            SoftwareSystem softwareSystemB = Model.AddSoftwareSystem("System B", "Description");
-            Person userA = Model.AddPerson("User A", "Description");
-            Person userB = Model.AddPerson("User B", "Description");
+            var softwareSystemA = Model.AddSoftwareSystem("System A", "Description");
+            var softwareSystemB = Model.AddSoftwareSystem("System B", "Description");
+            var userA = Model.AddPerson("User A", "Description");
+            var userB = Model.AddPerson("User B", "Description");
 
             // userA -> systemA -> system -> systemB -> userB
             userA.Uses(softwareSystemA, "");
@@ -333,15 +332,15 @@ namespace Structurizr.Core.Tests
 
             // userA -> systemA -> web application -> systemB -> userB
             // web application -> database
-            Container database = softwareSystem.AddContainer("Database", "", "");
+            var database = softwareSystem.AddContainer("Database", "", "");
             softwareSystemA.Uses(webApplication, "");
             webApplication.Uses(softwareSystemB, "");
             webApplication.Uses(database, "");
 
             // userA -> systemA -> controller -> service -> repository -> database
-            Component controller = webApplication.AddComponent("Controller", "");
-            Component service = webApplication.AddComponent("Service", "");
-            Component repository = webApplication.AddComponent("Repository", "");
+            var controller = webApplication.AddComponent("Controller", "");
+            var service = webApplication.AddComponent("Service", "");
+            var repository = webApplication.AddComponent("Repository", "");
             softwareSystemA.Uses(controller, "");
             controller.Uses(service, "");
             service.Uses(repository, "");
@@ -393,7 +392,5 @@ namespace Structurizr.Core.Tests
             Assert.True(view.Elements.Contains(new ElementView(repository)));
             Assert.True(view.Elements.Contains(new ElementView(softwareSystemB)));
         }
-
     }
-
 }

@@ -5,7 +5,6 @@ namespace Structurizr.Core.Tests
 {
     public class HttpHealthCheckTests
     {
-
         private HttpHealthCheck _healthCheck;
 
         [Fact]
@@ -85,7 +84,5 @@ namespace Structurizr.Core.Tests
             _healthCheck.AddHeader("Name", "");
             Assert.Equal("", _healthCheck.Headers["Name"]);
         }
-
-
     }
 }

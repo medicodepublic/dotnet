@@ -2,14 +2,13 @@
 
 namespace Structurizr.Core.Tests
 {
-    
     public class ComponentTests
     {
+        private readonly Container container;
+        private readonly Model model;
+        private readonly SoftwareSystem softwareSystem;
 
-        private Workspace workspace;
-        private Model model;
-        private SoftwareSystem softwareSystem;
-        private Container container;
+        private readonly Workspace workspace;
 
         public ComponentTests()
         {
@@ -22,7 +21,7 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Name_ReturnsTheGivenName_WhenANameIsGiven()
         {
-            Component component = new Component();
+            var component = new Component();
             component.Name = "Some name";
             Assert.Equal("Some name", component.Name);
         }
@@ -30,35 +29,35 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_CanonicalName()
         {
-            Component component = container.AddComponent("Component", "Description");
+            var component = container.AddComponent("Component", "Description");
             Assert.Equal("/System/Container/Component", component.CanonicalName);
         }
 
         [Fact]
         public void Test_CanonicalName_WhenNameContainsASlashCharacter()
         {
-            Component component = container.AddComponent("Name1/Name2", "Description");
+            var component = container.AddComponent("Name1/Name2", "Description");
             Assert.Equal("/System/Container/Name1Name2", component.CanonicalName);
         }
 
         [Fact]
         public void Test_Parent_ReturnsTheParentContainer()
         {
-            Component component = container.AddComponent("Component", "Description");
+            var component = container.AddComponent("Component", "Description");
             Assert.Equal(container, component.Parent);
         }
 
         [Fact]
         public void Test_Container_ReturnsTheParentContainer()
         {
-            Component component = container.AddComponent("Name", "Description");
+            var component = container.AddComponent("Name", "Description");
             Assert.Equal(container, component.Container);
         }
 
         [Fact]
         public void Test_RemoveTags_DoesNotRemoveRequiredTags()
         {
-            Component component = new Component();
+            var component = new Component();
             Assert.True(component.Tags.Contains(Tags.Element));
             Assert.True(component.Tags.Contains(Tags.Component));
 
@@ -68,6 +67,5 @@ namespace Structurizr.Core.Tests
             Assert.True(component.Tags.Contains(Tags.Element));
             Assert.True(component.Tags.Contains(Tags.Component));
         }
-
     }
 }

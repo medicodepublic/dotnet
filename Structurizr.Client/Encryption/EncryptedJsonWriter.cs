@@ -1,29 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Structurizr.IO.Json;
-using System.IO;
 
 namespace Structurizr.Encryption
 {
     public class EncryptedJsonWriter
     {
+        public EncryptedJsonWriter(bool indentOutput)
+        {
+            IndentOutput = indentOutput;
+        }
 
         public bool IndentOutput { get; set; }
 
-        public EncryptedJsonWriter(bool indentOutput)
-        {
-            this.IndentOutput = indentOutput;
-        }
-
         public void Write(EncryptedWorkspace workspace, StringWriter writer)
         {
-            string json = JsonConvert.SerializeObject(workspace,
-                IndentOutput == true ? Formatting.Indented : Formatting.None,
-                new Newtonsoft.Json.Converters.StringEnumConverter(),
+            var json = JsonConvert.SerializeObject(workspace,
+                IndentOutput ? Formatting.Indented : Formatting.None,
+                new StringEnumConverter(),
                 new PaperSizeJsonConverter());
 
             writer.WriteLine(json);
         }
-
-
     }
 }

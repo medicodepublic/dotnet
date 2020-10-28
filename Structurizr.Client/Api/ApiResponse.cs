@@ -1,37 +1,35 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Structurizr.Api
 {
-
     [DataContract]
     internal sealed class ApiResponse
     {
-
-        [DataMember(Name = "success", EmitDefaultValue = false)]
-        internal bool Success;
-
         [DataMember(Name = "message", EmitDefaultValue = false)]
         internal string Message;
 
         [DataMember(Name = "revision", EmitDefaultValue = false)]
         internal long? Revision;
 
-        static internal ApiResponse Parse(string json)
+        [DataMember(Name = "success", EmitDefaultValue = false)]
+        internal bool Success;
+
+        internal static ApiResponse Parse(string json)
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings()
+            var settings = new JsonSerializerSettings
             {
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-                Converters = new List<JsonConverter> {
+                Converters = new List<JsonConverter>
+                {
                     new IsoDateTimeConverter()
                 }
             };
 
-            ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(json, settings);
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(json, settings);
             return apiResponse;
         }
-
     }
 }

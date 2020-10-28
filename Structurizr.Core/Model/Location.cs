@@ -2,10 +2,8 @@
 {
     public enum Location
     {
-
         Unspecified,
         Internal,
         External
-
     }
 }

@@ -5,11 +5,9 @@ using Xunit;
 
 namespace Structurizr.Core.Tests.Documentation
 {
-
     public class DocumentationTests : AbstractTestBase
     {
-
-        private Structurizr.Documentation.Documentation _documentation;
+        private readonly Structurizr.Documentation.Documentation _documentation;
 
         public DocumentationTests()
         {
@@ -21,13 +19,15 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+                var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
                 new Workspace("", "").Documentation.AddSection(softwareSystem, "Title", Format.Markdown, "Content");
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
             {
-                Assert.Equal("The element named Software System does not exist in the model associated with this documentation.", iae.Message);
+                Assert.Equal(
+                    "The element named Software System does not exist in the model associated with this documentation.",
+                    iae.Message);
             }
         }
 
@@ -79,22 +79,23 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+                var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
                 _documentation.AddSection(softwareSystem, "Title", Format.Markdown, "Content");
                 _documentation.AddSection(softwareSystem, "Title", Format.Markdown, "Content");
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
             {
-                Assert.Equal("A section with a title of Title already exists for the element named Software System.", iae.Message);
+                Assert.Equal("A section with a title of Title already exists for the element named Software System.",
+                    iae.Message);
             }
         }
 
         [Fact]
         public void test_addSection()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
-            Section section = _documentation.AddSection(softwareSystem, "Title", Format.Markdown, "Content");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+            var section = _documentation.AddSection(softwareSystem, "Title", Format.Markdown, "Content");
 
             Assert.Equal(1, _documentation.Sections.Count);
             Assert.True(_documentation.Sections.Contains(section));
@@ -108,10 +109,10 @@ namespace Structurizr.Core.Tests.Documentation
         [Fact]
         public void test_addSection_IncrementsTheSectionOrderNumber()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
-            Section section1 = _documentation.AddSection(softwareSystem, "Section 1", Format.Markdown, "Content");
-            Section section2 = _documentation.AddSection(softwareSystem, "Section 2", Format.Markdown, "Content");
-            Section section3 = _documentation.AddSection(softwareSystem, "Section 3", Format.Markdown, "Content");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+            var section1 = _documentation.AddSection(softwareSystem, "Section 1", Format.Markdown, "Content");
+            var section2 = _documentation.AddSection(softwareSystem, "Section 2", Format.Markdown, "Content");
+            var section3 = _documentation.AddSection(softwareSystem, "Section 3", Format.Markdown, "Content");
 
             Assert.Equal(1, section1.Order);
             Assert.Equal(2, section2.Order);
@@ -123,7 +124,8 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                _documentation.AddDecision(null, new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown, "Content");
+                _documentation.AddDecision(null, new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown,
+                    "Content");
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
@@ -137,7 +139,8 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                _documentation.AddDecision("1", new DateTime(), null, DecisionStatus.Accepted, Format.Markdown, "Content");
+                _documentation.AddDecision("1", new DateTime(), null, DecisionStatus.Accepted, Format.Markdown,
+                    "Content");
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
@@ -151,7 +154,8 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                _documentation.AddDecision("1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown, null);
+                _documentation.AddDecision("1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown,
+                    null);
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
@@ -165,8 +169,10 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                _documentation.AddDecision("1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown, "Content");
-                _documentation.AddDecision("1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown, "Content");
+                _documentation.AddDecision("1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown,
+                    "Content");
+                _documentation.AddDecision("1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown,
+                    "Content");
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
@@ -180,38 +186,39 @@ namespace Structurizr.Core.Tests.Documentation
         {
             try
             {
-                SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
-                _documentation.AddDecision(softwareSystem, "1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown, "Content");
-                _documentation.AddDecision(softwareSystem, "1", new DateTime(), "Title", DecisionStatus.Accepted, Format.Markdown, "Content");
+                var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+                _documentation.AddDecision(softwareSystem, "1", new DateTime(), "Title", DecisionStatus.Accepted,
+                    Format.Markdown, "Content");
+                _documentation.AddDecision(softwareSystem, "1", new DateTime(), "Title", DecisionStatus.Accepted,
+                    Format.Markdown, "Content");
                 throw new TestFailedException();
             }
             catch (ArgumentException iae)
             {
-                Assert.Equal("A decision with an ID of 1 already exists for the element named Software System.", iae.Message);
+                Assert.Equal("A decision with an ID of 1 already exists for the element named Software System.",
+                    iae.Message);
             }
         }
 
         [Fact]
         public void test_hydrate()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
 
-            Section section = new Section();
+            var section = new Section();
             section.ElementId = softwareSystem.Id;
             section.Title = "Title";
-            _documentation.Sections = new HashSet<Section>() { section };
+            _documentation.Sections = new HashSet<Section> {section};
 
-            Decision decision = new Decision();
+            var decision = new Decision();
             decision.Id = "1";
             decision.ElementId = softwareSystem.Id;
-            _documentation.Decisions = new HashSet<Decision>() { decision };
+            _documentation.Decisions = new HashSet<Decision> {decision};
 
             _documentation.Hydrate();
 
             Assert.Same(softwareSystem, section.Element);
             Assert.Same(softwareSystem, decision.Element);
         }
-
     }
-
 }

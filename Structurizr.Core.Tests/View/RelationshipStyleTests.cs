@@ -3,14 +3,12 @@ using Xunit;
 
 namespace Structurizr.Core.Tests.View
 {
-
     public class RelationshipStyleTests
     {
-
         [Fact]
         public void Test_Position()
         {
-            RelationshipStyle style = new RelationshipStyle();
+            var style = new RelationshipStyle();
             Assert.Null(style.Position);
 
             style.Position = -1;
@@ -32,7 +30,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_Opacity()
         {
-            RelationshipStyle style = new RelationshipStyle();
+            var style = new RelationshipStyle();
             Assert.Null(style.Opacity);
 
             style.Opacity = -1;
@@ -54,7 +52,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_Color_SetsTheColorProperty_WhenAValidHexColorCodeIsSpecified()
         {
-            RelationshipStyle style = new RelationshipStyle();
+            var style = new RelationshipStyle();
             style.Color = "#ffffff";
             Assert.Equal("#ffffff", style.Color);
 
@@ -70,7 +68,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                RelationshipStyle style = new RelationshipStyle();
+                var style = new RelationshipStyle();
                 style.Color = "white";
                 throw new TestFailedException();
             }
@@ -79,6 +77,5 @@ namespace Structurizr.Core.Tests.View
                 Assert.Equal("'white' is not a valid hex color code.", ae.Message);
             }
         }
-
     }
 }

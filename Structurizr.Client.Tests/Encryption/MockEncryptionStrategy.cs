@@ -20,6 +20,5 @@ namespace Structurizr.Api.Encryption.Tests
             Array.Reverse(array);
             return new string(array);
         }
-
     }
 }

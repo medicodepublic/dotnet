@@ -6,72 +6,20 @@ namespace Structurizr
     [DataContract]
     public class AutomaticLayout
     {
+        private int _edgeSeparation;
 
-        /// <summary>
-        /// The rank direction.
-        /// </summary>
-        [DataMember(Name = "rankDirection", EmitDefaultValue = false)]
-        public RankDirection RankDirection;
+        private int _nodeSeparation;
 
         private int _rankSeparation;
 
         /// <summary>
-        /// The rank separation (in pixels).
+        ///     The rank direction.
         /// </summary>
-        [DataMember(Name = "rankSeparation", EmitDefaultValue = false)]
-        public int RankSeparation
-        {
-            get { return _rankSeparation; }
-
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException("The rank separation must be a positive integer.");
-                }
-
-                _rankSeparation = value;
-            }
-        }
-
-        private int _nodeSeparation;
-        
-        [DataMember(Name = "nodeSeparation", EmitDefaultValue = false)]
-        public int NodeSeparation
-        {
-            get { return _nodeSeparation; }
-
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException("The node separation must be a positive integer.");
-                }
-
-                _nodeSeparation = value;
-            }
-        }
-
-        private int _edgeSeparation;
-
-        [DataMember(Name = "edgeSeparation", EmitDefaultValue = false)]
-        public int EdgeSeparation
-        {
-            get { return _edgeSeparation; }
-
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentException("The edge separation must be a positive integer.");
-                }
-
-                _edgeSeparation = value;
-            }
-        }
+        [DataMember(Name = "rankDirection", EmitDefaultValue = false)]
+        public RankDirection RankDirection;
 
         /// <summary>
-        /// Whether the automatic layout algorithm should create vertices.
+        ///     Whether the automatic layout algorithm should create vertices.
         /// </summary>
         [DataMember(Name = "vertices", EmitDefaultValue = true)]
         public bool Vertices;
@@ -89,7 +37,47 @@ namespace Structurizr
             EdgeSeparation = edgeSeparation;
             Vertices = vertices;
         }
-        
-    }
 
+        /// <summary>
+        ///     The rank separation (in pixels).
+        /// </summary>
+        [DataMember(Name = "rankSeparation", EmitDefaultValue = false)]
+        public int RankSeparation
+        {
+            get => _rankSeparation;
+
+            set
+            {
+                if (value < 0) throw new ArgumentException("The rank separation must be a positive integer.");
+
+                _rankSeparation = value;
+            }
+        }
+
+        [DataMember(Name = "nodeSeparation", EmitDefaultValue = false)]
+        public int NodeSeparation
+        {
+            get => _nodeSeparation;
+
+            set
+            {
+                if (value < 0) throw new ArgumentException("The node separation must be a positive integer.");
+
+                _nodeSeparation = value;
+            }
+        }
+
+        [DataMember(Name = "edgeSeparation", EmitDefaultValue = false)]
+        public int EdgeSeparation
+        {
+            get => _edgeSeparation;
+
+            set
+            {
+                if (value < 0) throw new ArgumentException("The edge separation must be a positive integer.");
+
+                _edgeSeparation = value;
+            }
+        }
+    }
 }

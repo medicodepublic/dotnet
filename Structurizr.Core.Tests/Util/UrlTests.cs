@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Structurizr.Util;
 using Xunit;
-using Structurizr.Util;
 
 namespace Structurizr.Core.Tests
 {
-
-    
     public class UrlTests
     {
-
         [Fact]
         public void test_IsUrl_ReturnsFalse_WhenPassedNull()
         {
@@ -37,6 +29,5 @@ namespace Structurizr.Core.Tests
         {
             Assert.True(Url.IsUrl("https://www.google.com"));
         }
-
     }
 }

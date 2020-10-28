@@ -9,11 +9,10 @@ namespace Structurizr.Api.Encryption.Tests
 {
     public class EncryptedWorkspaceTests
     {
-
         private EncryptedWorkspace _encryptedWorkspace;
-        private EncryptionStrategy _encryptionStrategy;
+        private readonly EncryptionStrategy _encryptionStrategy;
         private Workspace _workspace;
-        
+
         public EncryptedWorkspaceTests()
         {
             _workspace = new Workspace("Name", "Description");
@@ -23,10 +22,10 @@ namespace Structurizr.Api.Encryption.Tests
             _workspace.LastModifiedUser = "User";
             _workspace.Id = 1234;
             _workspace.Configuration.AddUser("user@domain.com", Role.ReadOnly);
-            
+
             _encryptionStrategy = new MockEncryptionStrategy();
         }
-        
+
         [Fact]
         public void Test_Construction()
         {
@@ -45,10 +44,10 @@ namespace Structurizr.Api.Encryption.Tests
             Assert.Same(_workspace, _encryptedWorkspace.Workspace);
             Assert.Same(_encryptionStrategy, _encryptedWorkspace.EncryptionStrategy);
 
-            JsonWriter jsonWriter = new JsonWriter(false);
-            StringWriter stringWriter = new StringWriter();
+            var jsonWriter = new JsonWriter(false);
+            var stringWriter = new StringWriter();
             jsonWriter.Write(_workspace, stringWriter);
-    
+
             Assert.Equal(stringWriter.ToString(), _encryptedWorkspace.Plaintext);
             Assert.Equal(_encryptionStrategy.Encrypt(stringWriter.ToString()), _encryptedWorkspace.Ciphertext);
         }
@@ -56,21 +55,20 @@ namespace Structurizr.Api.Encryption.Tests
         [Fact]
         public void Test_Workspace_ReturnsTheWorkspace_WhenACipherextIsSpecified()
         {
-            JsonWriter jsonWriter = new JsonWriter(false);
-            StringWriter stringWriter = new StringWriter();
+            var jsonWriter = new JsonWriter(false);
+            var stringWriter = new StringWriter();
             jsonWriter.Write(_workspace, stringWriter);
-            string expected = stringWriter.ToString();
-        
+            var expected = stringWriter.ToString();
+
             _encryptedWorkspace = new EncryptedWorkspace();
             _encryptedWorkspace.EncryptionStrategy = _encryptionStrategy;
             _encryptedWorkspace.Ciphertext = _encryptionStrategy.Encrypt(expected);
-        
+
             _workspace = _encryptedWorkspace.Workspace;
             Assert.Equal("Name", _workspace.Name);
             stringWriter = new StringWriter();
             jsonWriter.Write(_workspace, stringWriter);
             Assert.Equal(expected, stringWriter.ToString());
         }
-
     }
 }

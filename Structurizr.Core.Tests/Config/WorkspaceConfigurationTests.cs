@@ -7,13 +7,12 @@ namespace Structurizr.Core.Tests.Configuration
 {
     public class ConfigurationTests
     {
-        
         [Fact]
-        public void Test_AddUser_ThrowsAnException_WhenANullUsernameIsSpecified() 
+        public void Test_AddUser_ThrowsAnException_WhenANullUsernameIsSpecified()
         {
             try
             {
-                WorkspaceConfiguration configuration = new WorkspaceConfiguration();
+                var configuration = new WorkspaceConfiguration();
                 configuration.AddUser(null, Role.ReadWrite);
                 throw new TestFailedException();
             }
@@ -28,7 +27,7 @@ namespace Structurizr.Core.Tests.Configuration
         {
             try
             {
-                WorkspaceConfiguration configuration = new WorkspaceConfiguration();
+                var configuration = new WorkspaceConfiguration();
                 configuration.AddUser(" ", Role.ReadWrite);
                 throw new TestFailedException();
             }
@@ -41,13 +40,12 @@ namespace Structurizr.Core.Tests.Configuration
         [Fact]
         public void Test_AddUser_AddsAUser()
         {
-            WorkspaceConfiguration configuration = new WorkspaceConfiguration();
+            var configuration = new WorkspaceConfiguration();
             configuration.AddUser("user@domain.com", Role.ReadOnly);
 
             Assert.Equal(1, configuration.Users.Count);
             Assert.Equal("user@domain.com", configuration.Users.First().Username);
             Assert.Equal(Role.ReadOnly, configuration.Users.First().Role);
         }
-        
     }
 }

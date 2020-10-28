@@ -2,10 +2,7 @@
 {
     public enum Role
     {
-     
         ReadWrite,
         ReadOnly
-        
     }
-    
 }

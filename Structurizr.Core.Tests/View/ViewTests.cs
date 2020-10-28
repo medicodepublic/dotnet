@@ -7,7 +7,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_EnableAutomaticLayout_EnablesAutoLayoutWithSomeDefaultValues()
         {
-            SystemLandscapeView view = new Workspace("", "").Views.CreateSystemLandscapeView("key", "Description");
+            var view = new Workspace("", "").Views.CreateSystemLandscapeView("key", "Description");
             view.EnableAutomaticLayout();
 
             Assert.NotNull(view.AutomaticLayout);
@@ -21,7 +21,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_DisableAutomaticLayout_DisablesAutoLayout()
         {
-            SystemLandscapeView view = new Workspace("", "").Views.CreateSystemLandscapeView("key", "Description");
+            var view = new Workspace("", "").Views.CreateSystemLandscapeView("key", "Description");
             view.EnableAutomaticLayout();
             Assert.NotNull(view.AutomaticLayout);
 
@@ -32,7 +32,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_EnableAutomaticLayout()
         {
-            SystemLandscapeView view = new Workspace("", "").Views.CreateSystemLandscapeView("key", "Description");
+            var view = new Workspace("", "").Views.CreateSystemLandscapeView("key", "Description");
             view.EnableAutomaticLayout(RankDirection.LeftRight, 100, 200, 300, true);
 
             Assert.NotNull(view.AutomaticLayout);

@@ -2,9 +2,7 @@
 {
     public enum InteractionStyle
     {
-
         Synchronous,
         Asynchronous
-
     }
 }

@@ -7,5 +7,4 @@ namespace Structurizr
         LeftRight,
         RightLeft
     }
-    
 }

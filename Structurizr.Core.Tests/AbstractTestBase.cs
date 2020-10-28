@@ -2,10 +2,10 @@
 {
     public abstract class AbstractTestBase
     {
-
-        protected Workspace Workspace;
         protected Model Model;
         protected ViewSet Views;
+
+        protected Workspace Workspace;
 
         public AbstractTestBase()
         {
@@ -13,6 +13,5 @@
             Model = Workspace.Model;
             Views = Workspace.Views;
         }
-
     }
 }

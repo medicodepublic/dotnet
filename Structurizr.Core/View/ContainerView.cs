@@ -2,39 +2,33 @@ using System.Runtime.Serialization;
 
 namespace Structurizr
 {
-
     /// <summary>
-    /// A container view.
+    ///     A container view.
     /// </summary>
     [DataContract]
     public sealed class ContainerView : StaticView
     {
-
-        public override string Name
+        internal ContainerView()
         {
-            get
-            {
-                return SoftwareSystem.Name + " - Containers";
-            }
         }
 
+        internal ContainerView(SoftwareSystem softwareSystem, string key, string description) : base(softwareSystem,
+            key, description)
+        {
+        }
+
+        public override string Name => SoftwareSystem.Name + " - Containers";
+
         /// <summary>
-        /// Determines whether software system boundaries should be visible for "external" containers (those outside the software system in scope).
+        ///     Determines whether software system boundaries should be visible for "external" containers (those outside the
+        ///     software system in scope).
         /// </summary>
         [DataMember(Name = "externalSoftwareSystemBoundariesVisible", EmitDefaultValue = false)]
         public bool? ExternalSoftwareSystemBoundariesVisible { get; set; }
 
-        internal ContainerView() : base()
-        {
-        }
-
-        internal ContainerView(SoftwareSystem softwareSystem, string key, string description) : base(softwareSystem, key, description)
-        {
-        }
-
 
         /// <summary>
-        /// Adds all software systems, people and containers to this view.
+        ///     Adds all software systems, people and containers to this view.
         /// </summary>
         public override void AddAllElements()
         {
@@ -45,18 +39,12 @@ namespace Structurizr
 
         public override void Add(SoftwareSystem softwareSystem)
         {
-            if (softwareSystem != null && !softwareSystem.Equals(SoftwareSystem))
-            {
-                AddElement(softwareSystem, true);
-            }
+            if (softwareSystem != null && !softwareSystem.Equals(SoftwareSystem)) AddElement(softwareSystem, true);
         }
 
         public void AddAllContainers()
         {
-            foreach (Container container in SoftwareSystem.Containers)
-            {
-                Add(container);
-            }
+            foreach (var container in SoftwareSystem.Containers) Add(container);
         }
 
         public void Add(Container container)
@@ -70,7 +58,7 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Adds people, software systems and containers that are directly related to the given element.
+        ///     Adds people, software systems and containers that are directly related to the given element.
         /// </summary>
         public override void AddNearestNeighbours(Element element)
         {
@@ -78,6 +66,5 @@ namespace Structurizr
             AddNearestNeighbours(element, typeof(SoftwareSystem));
             AddNearestNeighbours(element, typeof(Container));
         }
-
     }
 }

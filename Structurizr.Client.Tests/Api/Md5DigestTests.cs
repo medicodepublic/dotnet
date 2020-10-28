@@ -2,11 +2,9 @@
 
 namespace Structurizr.Api.Tests
 {
-    
     public class Md5DigestTests
     {
-
-        private Md5Digest md5 = new Md5Digest();
+        private readonly Md5Digest md5 = new Md5Digest();
 
         [Fact]
         public void Test_Generate_TreatsNullAsEmptyContent()

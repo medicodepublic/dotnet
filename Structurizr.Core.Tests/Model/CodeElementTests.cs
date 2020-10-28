@@ -3,12 +3,10 @@ using Xunit;
 
 namespace Structurizr.Core.Tests
 {
-
-    
     public class CodeElementTests
     {
-
-        private readonly CodeElement _codeElement = new CodeElement("Wibble.Wobble, Foo.Bar, Version=1.0.0.0, Culture=neutral, PublicKeyToken=xyz");
+        private readonly CodeElement _codeElement =
+            new CodeElement("Wibble.Wobble, Foo.Bar, Version=1.0.0.0, Culture=neutral, PublicKeyToken=xyz");
 
         [Fact]
         public void Test_Construction_WhenAFullyQualifiedTypeIsSpecified()
@@ -48,7 +46,5 @@ namespace Structurizr.Core.Tests
             _codeElement.Url = "http://www.somedomain.com";
             Assert.Equal("http://www.somedomain.com", _codeElement.Url);
         }
-
     }
-
 }

@@ -4,8 +4,7 @@ namespace Structurizr.Api
 {
     internal class HmacContent
     {
-
-        private string[] strings;
+        private readonly string[] strings;
 
         internal HmacContent(params string[] strings)
         {
@@ -14,8 +13,8 @@ namespace Structurizr.Api
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
-            foreach (string s in strings)
+            var buf = new StringBuilder();
+            foreach (var s in strings)
             {
                 buf.Append(s);
                 buf.Append("\n");
@@ -23,6 +22,5 @@ namespace Structurizr.Api
 
             return buf.ToString();
         }
-
     }
 }

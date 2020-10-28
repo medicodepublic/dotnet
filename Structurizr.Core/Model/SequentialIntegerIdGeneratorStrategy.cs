@@ -2,34 +2,29 @@
 {
     internal class SequentialIntegerIdGeneratorStrategy
     {
-
-        private int Id = 0;
+        private int Id;
 
         internal void Found(string id)
         {
-            int idAsInt = int.Parse(id);
-            if (idAsInt > Id)
-            {
-                Id = idAsInt;
-            }
+            var idAsInt = int.Parse(id);
+            if (idAsInt > Id) Id = idAsInt;
         }
 
         internal string GenerateId(Element element)
         {
-            lock(this)
+            lock (this)
             {
                 return "" + ++Id;
             }
         }
 
-        
+
         internal string GenerateId(Relationship relationship)
         {
-            lock(this)
+            lock (this)
             {
                 return "" + ++Id;
             }
         }
-
     }
 }

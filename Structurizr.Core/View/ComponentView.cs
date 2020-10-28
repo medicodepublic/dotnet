@@ -2,61 +2,49 @@ using System.Runtime.Serialization;
 
 namespace Structurizr
 {
-
     /// <summary>
-    /// A system context view.
+    ///     A system context view.
     /// </summary>
     [DataContract]
     public sealed class ComponentView : StaticView
     {
+        private string containerId;
 
-        public override string Name
+        internal ComponentView()
         {
-            get
-            {
-                return SoftwareSystem.Name + " - " + Container.Name + " - Components";
-            }
         }
+
+        internal ComponentView(Container container, string key, string description) : base(container.SoftwareSystem,
+            key, description)
+        {
+            Container = container;
+        }
+
+        public override string Name => SoftwareSystem.Name + " - " + Container.Name + " - Components";
 
         public Container Container { get; set; }
 
-        private string containerId;
-
         /// <summary>
-        /// The ID of the container this view is associated with.
+        ///     The ID of the container this view is associated with.
         /// </summary>
-        [DataMember(Name="containerId", EmitDefaultValue=false)]
-        public string ContainerId {
+        [DataMember(Name = "containerId", EmitDefaultValue = false)]
+        public string ContainerId
+        {
             get
             {
                 if (Container != null)
-                {
                     return Container.Id;
-                } else
-                {
-                    return containerId;
-                }
+                return containerId;
             }
-            set
-            {
-                this.containerId = value;
-            }
+            set => containerId = value;
         }
-        
+
         /// <summary>
-        /// Determines whether container boundaries should be visible for "external" components (those outside the container in scope).
+        ///     Determines whether container boundaries should be visible for "external" components (those outside the container in
+        ///     scope).
         /// </summary>
         [DataMember(Name = "externalContainerBoundariesVisible", EmitDefaultValue = false)]
         public bool? ExternalContainerBoundariesVisible { get; set; }
-
-        internal ComponentView() : base()
-        {
-        }
-
-        internal ComponentView(Container container, string key, string description) : base(container.SoftwareSystem,key,  description)
-        {
-            this.Container = container;
-        }
 
         public override void AddAllElements()
         {
@@ -68,26 +56,17 @@ namespace Structurizr
 
         public override void Add(SoftwareSystem softwareSystem)
         {
-            if (softwareSystem != null && !softwareSystem.Equals(SoftwareSystem))
-            {
-                AddElement(softwareSystem, true);
-            }
+            if (softwareSystem != null && !softwareSystem.Equals(SoftwareSystem)) AddElement(softwareSystem, true);
         }
 
         public void AddAllContainers()
         {
-            foreach (Container container in SoftwareSystem.Containers)
-            {
-                Add(container);
-            }
+            foreach (var container in SoftwareSystem.Containers) Add(container);
         }
 
         public void Add(Container container)
         {
-            if (container != null && !container.Equals(Container))
-            {
-                AddElement(container, true);
-            }
+            if (container != null && !container.Equals(Container)) AddElement(container, true);
         }
 
         public void Remove(Container container)
@@ -97,18 +76,12 @@ namespace Structurizr
 
         public void AddAllComponents()
         {
-            foreach (Component component in Container.Components)
-            {
-                Add(component);
-            }
+            foreach (var component in Container.Components) Add(component);
         }
 
         public void Add(Component component)
         {
-            if (component != null)
-            {
-                AddElement(component, true);
-            }
+            if (component != null) AddElement(component, true);
         }
 
         public void Remove(Component component)
@@ -117,7 +90,7 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Adds people, software systems, containers and components that are directly related to the given element.
+        ///     Adds people, software systems, containers and components that are directly related to the given element.
         /// </summary>
         public override void AddNearestNeighbours(Element element)
         {
@@ -126,6 +99,5 @@ namespace Structurizr
             AddNearestNeighbours(element, typeof(Container));
             AddNearestNeighbours(element, typeof(Component));
         }
-
     }
 }

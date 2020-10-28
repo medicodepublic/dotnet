@@ -3,15 +3,12 @@ using Xunit;
 
 namespace Structurizr.Core.Tests.View
 {
-
-    
     public class ColorPairTests
     {
-
         [Fact]
         public void test_construction()
         {
-            ColorPair colorPair = new ColorPair("#ffffff", "#000000");
+            var colorPair = new ColorPair("#ffffff", "#000000");
             Assert.Equal("#ffffff", colorPair.Background);
             Assert.Equal("#000000", colorPair.Foreground);
         }
@@ -19,7 +16,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void test_setBackground_WithAValidHtmlColorCode()
         {
-            ColorPair colorPair = new ColorPair();
+            var colorPair = new ColorPair();
             colorPair.Background = "#ffffff";
             Assert.Equal("#ffffff", colorPair.Background);
         }
@@ -29,7 +26,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                ColorPair colorPair = new ColorPair();
+                var colorPair = new ColorPair();
                 colorPair.Background = null;
                 throw new TestFailedException();
             }
@@ -44,7 +41,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                ColorPair colorPair = new ColorPair();
+                var colorPair = new ColorPair();
                 colorPair.Background = "";
                 throw new TestFailedException();
             }
@@ -59,7 +56,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                ColorPair colorPair = new ColorPair();
+                var colorPair = new ColorPair();
                 colorPair.Background = "ffffff";
                 throw new TestFailedException();
             }
@@ -72,7 +69,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void test_setForeground_WithAValidHtmlColorCode()
         {
-            ColorPair colorPair = new ColorPair();
+            var colorPair = new ColorPair();
             colorPair.Foreground = "#000000";
             Assert.Equal("#000000", colorPair.Foreground);
         }
@@ -82,7 +79,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                ColorPair colorPair = new ColorPair();
+                var colorPair = new ColorPair();
                 colorPair.Foreground = null;
                 throw new TestFailedException();
             }
@@ -97,7 +94,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                ColorPair colorPair = new ColorPair();
+                var colorPair = new ColorPair();
                 colorPair.Foreground = "";
                 throw new TestFailedException();
             }
@@ -112,7 +109,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                ColorPair colorPair = new ColorPair();
+                var colorPair = new ColorPair();
                 colorPair.Foreground = "000000";
                 throw new TestFailedException();
             }
@@ -121,7 +118,5 @@ namespace Structurizr.Core.Tests.View
                 Assert.Equal("'000000' is not a valid hex color code.", iae.Message);
             }
         }
-
     }
-
 }

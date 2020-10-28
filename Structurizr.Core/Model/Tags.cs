@@ -2,7 +2,6 @@
 {
     public sealed class Tags
     {
-
         public const string Element = "Element";
         public const string Relationship = "Relationship";
 
@@ -17,6 +16,5 @@
         public const string DeploymentNode = "Deployment Node";
         public const string InfrastructureNode = "Infrastructure Node";
         public const string ContainerInstance = "Container Instance";
-        
     }
 }

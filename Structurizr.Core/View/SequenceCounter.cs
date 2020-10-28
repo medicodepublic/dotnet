@@ -1,11 +1,8 @@
 ﻿namespace Structurizr
 {
-
-   internal class SequenceCounter
+    internal class SequenceCounter
     {
-
         internal readonly SequenceCounter Parent;
-        internal int Sequence { get; set; }
 
         internal SequenceCounter()
         {
@@ -16,6 +13,8 @@
             Parent = parent;
         }
 
+        internal int Sequence { get; set; }
+
         internal virtual void Increment()
         {
             Sequence++;
@@ -25,7 +24,5 @@
         {
             return "" + Sequence;
         }
-
     }
-
 }

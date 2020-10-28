@@ -5,83 +5,68 @@ using System.Runtime.Serialization;
 
 namespace Structurizr
 {
-
     /// <summary>
-    /// This is the superclass for all model elements.
+    ///     This is the superclass for all model elements.
     /// </summary>
     [DataContract]
     public abstract class Element : ModelItem
     {
-
         public const string CanonicalNameSeparator = "/";
 
+        private HashSet<Relationship> _relationships;
+
+        private string _url;
+
+        internal Element()
+        {
+            _relationships = new HashSet<Relationship>();
+        }
+
         /// <summary>
-        /// The name of this element.
+        ///     The name of this element.
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public virtual string Name { get; internal set; }
 
         /// <summary>
-        /// A short description of this element.
+        ///     A short description of this element.
         /// </summary>
         [DataMember(Name = "description", EmitDefaultValue = false)]
         public string Description { get; set; }
 
-        private string _url;
-
         /// <summary>
-        /// The URL where more information about this element can be found.
+        ///     The URL where more information about this element can be found.
         /// </summary>
         [DataMember(Name = "url", EmitDefaultValue = false)]
         public string Url
         {
-            get
-            {
-                return _url;
-            }
+            get => _url;
 
             set
             {
                 if (value != null && value.Trim().Length > 0)
                 {
                     if (Util.Url.IsUrl(value))
-                    { 
-                        this._url = value;
-                    }
+                        _url = value;
                     else
-                    {
                         throw new ArgumentException(value + " is not a valid URL.");
-                    }
                 }
             }
         }
 
         public Model Model { get; set; }
 
-        private HashSet<Relationship> _relationships;
-
         [DataMember(Name = "relationships", EmitDefaultValue = false)]
         public ISet<Relationship> Relationships
         {
-            get
-            {
-                return new HashSet<Relationship>(_relationships);
-            }
+            get => new HashSet<Relationship>(_relationships);
 
-            internal set
-            {
-                _relationships = new HashSet<Relationship>(value);
-            }
+            internal set => _relationships = new HashSet<Relationship>(value);
         }
 
         public abstract string CanonicalName { get; }
 
         public abstract Element Parent { get; set; }
-
-        internal Element()
-        {
-            _relationships = new HashSet<Relationship>();
-        }
 
         internal void AddRelationship(Relationship relationship)
         {
@@ -94,7 +79,7 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Determines whether this element has afferent (incoming) relationships.
+        ///     Determines whether this element has afferent (incoming) relationships.
         /// </summary>
         /// <returns>true if this element has afferent relationships, false otherwise</returns>
         public bool HasAfferentRelationships()
@@ -103,8 +88,8 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Determines whether this element has an efferent (outgoing) relationship
-        /// with the specified element.
+        ///     Determines whether this element has an efferent (outgoing) relationship
+        ///     with the specified element.
         /// </summary>
         /// <param name="element">the element to look for</param>
         /// <returns>true if this element has an efferent relationship with the specified element, false otherwise</returns>
@@ -114,29 +99,22 @@ namespace Structurizr
         }
 
         /// <summary>
-        /// Gets the efferent (outgoing) relationship with the specified element.
+        ///     Gets the efferent (outgoing) relationship with the specified element.
         /// </summary>
         /// <param name="element">the element to look for</param>
         /// <returns>a Relationship object if an efferent relationship exists, null otherwise</returns>
         public Relationship GetEfferentRelationshipWith(Element element)
         {
-            if (element == null)
-            {
-                return null;
-            }
+            if (element == null) return null;
 
-            foreach (Relationship relationship in Relationships)
-            {
+            foreach (var relationship in Relationships)
                 if (relationship.Destination.Equals(element))
-                {
                     return relationship;
-                }
-            }
 
             return null;
         }
 
-        protected string FormatForCanonicalName(String name)
+        protected string FormatForCanonicalName(string name)
         {
             return name.Replace(CanonicalNameSeparator, "");
         }
@@ -153,18 +131,11 @@ namespace Structurizr
 
         public bool Equals(Element element)
         {
-            if (element == null)
-            {
-                return false;
-            }
+            if (element == null) return false;
 
-            if (element == this)
-            {
-                return true;
-            }
+            if (element == this) return true;
 
             return CanonicalName.Equals(element.CanonicalName);
         }
-
     }
 }

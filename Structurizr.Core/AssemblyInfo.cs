@@ -1,4 +1,6 @@
-﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Structurizr.Core.Tests")]
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Structurizr.Core.Tests")]
 
 namespace Structurizr
 {

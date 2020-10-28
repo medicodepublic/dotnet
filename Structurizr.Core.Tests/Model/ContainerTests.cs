@@ -2,14 +2,13 @@
 
 namespace Structurizr.Core.Tests
 {
-    
     public class ContainerTests
     {
+        private readonly Container container;
+        private readonly Model model;
+        private readonly SoftwareSystem softwareSystem;
 
-        private Workspace workspace;
-        private Model model;
-        private SoftwareSystem softwareSystem;
-        private Container container;
+        private readonly Workspace workspace;
 
         public ContainerTests()
         {
@@ -56,6 +55,5 @@ namespace Structurizr.Core.Tests
             Assert.True(container.Tags.Contains(Tags.Element));
             Assert.True(container.Tags.Contains(Tags.Container));
         }
-
     }
 }

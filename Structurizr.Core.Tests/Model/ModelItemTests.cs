@@ -6,7 +6,6 @@ namespace Structurizr.Core.Tests
 {
     public class ModelItemTests : AbstractTestBase
     {
-
         [Fact]
         public void Test_Construction()
         {
@@ -42,7 +41,7 @@ namespace Structurizr.Core.Tests
         public void Test_AddTags_DoesNotDoAnything_WhenPassedNull()
         {
             Element element = Model.AddSoftwareSystem("Name", "Description");
-            element.AddTags((String)null);
+            element.AddTags((string) null);
             Assert.Equal("Element,Software System", element.Tags);
 
             element.AddTags(null, null, null);
@@ -68,22 +67,22 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_GetAllTags_NoTagAdded_RequiredTagsAreReturned()
         {
-            Person user = Model.AddPerson("Person", "Description");
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+            var user = Model.AddPerson("Person", "Description");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
             var relation = user.Uses(softwareSystem, "Uses", "");
             // Relationship.GetRequiredTags() == new List<string> { Structurizr.Tags.Relationship, Structurizr.Tags.Synchronous }
-            Assert.Equal(new List<string> { Structurizr.Tags.Relationship, Structurizr.Tags.Synchronous }, relation.GetAllTags());
+            Assert.Equal(new List<string> {Tags.Relationship, Tags.Synchronous}, relation.GetAllTags());
         }
 
         [Fact]
         public void Test_GetAllTags_TagsAdded_AddedTagsAndRequiredTagsAreReturned()
         {
-            Person user = Model.AddPerson("Person", "Description");
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
+            var user = Model.AddPerson("Person", "Description");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "Description");
             var relation = user.Uses(softwareSystem, "Uses", "");
-            relation.AddTags("TagA","TagB");
+            relation.AddTags("TagA", "TagB");
             // Relationship.GetRequiredTags() == new List<string> { Structurizr.Tags.Relationship, Structurizr.Tags.Synchronous }
-            Assert.Equal(new List<string> { Structurizr.Tags.Relationship, Structurizr.Tags.Synchronous, "TagA","TagB" }, relation.GetAllTags());
+            Assert.Equal(new List<string> {Tags.Relationship, Tags.Synchronous, "TagA", "TagB"}, relation.GetAllTags());
         }
 
         [Fact]
@@ -173,7 +172,7 @@ namespace Structurizr.Core.Tests
         public void Test_SetProperties_SetsTheProperties_WhenANonEmptyMapIsSpecified()
         {
             Element element = Model.AddSoftwareSystem("Name", "Description");
-            Dictionary<string,string> properties = new Dictionary<string,string>();
+            var properties = new Dictionary<string, string>();
             properties.Add("name", "value");
             element.Properties = properties;
             Assert.Equal(1, element.Properties.Count);
@@ -209,6 +208,7 @@ namespace Structurizr.Core.Tests
                 Assert.Equal("A name must be specified.", iae.Message);
             }
         }
+
         [Fact]
         public void Test_AddPerspective_ThrowsAnException_WhenADescriptionIsNotSpecified()
         {
@@ -243,7 +243,7 @@ namespace Structurizr.Core.Tests
         public void Test_AddPerspective_AddsAPerspective()
         {
             Element element = Model.AddSoftwareSystem("Name", "Description");
-            Perspective perspective = element.AddPerspective("Security", "Data is encrypted at rest.");
+            var perspective = element.AddPerspective("Security", "Data is encrypted at rest.");
             Assert.Equal("Security", perspective.Name);
             Assert.Equal("Data is encrypted at rest.", perspective.Description);
             Assert.Equal(1, element.Perspectives.Count);
@@ -265,7 +265,5 @@ namespace Structurizr.Core.Tests
                 Assert.Equal("A perspective named \"Security\" already exists.", iae.Message);
             }
         }
-
-
     }
 }

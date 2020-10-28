@@ -10,16 +10,39 @@ namespace Structurizr.Encryption
     [DataContract]
     public class AesEncryptionStrategy : EncryptionStrategy
     {
-
         private const int InitializationVectorSizeInBytes = 16;
 
-        public override string Type
+        public AesEncryptionStrategy()
         {
-            get
-            {
-                return "aes";
-            }
         }
+
+        public AesEncryptionStrategy(string passphrase) : this(128, 1000, passphrase)
+        {
+        }
+
+        public AesEncryptionStrategy(int keySize, int iterationCount, string passphrase) : base(passphrase)
+        {
+            KeySize = keySize;
+            IterationCount = iterationCount;
+
+            // create a random salt
+            var saltAsBytes = CreateRandomBytes(keySize / 8);
+            Salt = BitConverter.ToString(saltAsBytes).Replace("-", "");
+
+            var ivAsBytes = CreateRandomBytes(InitializationVectorSizeInBytes);
+            Iv = BitConverter.ToString(ivAsBytes).Replace("-", "");
+        }
+
+        public AesEncryptionStrategy(int keySize, int iterationCount, string salt, string iv, string passphrase) :
+            base(passphrase)
+        {
+            KeySize = keySize;
+            IterationCount = iterationCount;
+            Salt = salt;
+            Iv = iv;
+        }
+
+        public override string Type => "aes";
 
         [DataMember(Name = "keySize", EmitDefaultValue = false)]
         public int KeySize { get; private set; }
@@ -33,40 +56,15 @@ namespace Structurizr.Encryption
         [DataMember(Name = "iv", EmitDefaultValue = false)]
         public string Iv { get; private set; }
 
-        public AesEncryptionStrategy() { }
-
-        public AesEncryptionStrategy(string passphrase) : this(128, 1000, passphrase) { }
-
-        public AesEncryptionStrategy(int keySize, int iterationCount, string passphrase) : base(passphrase)
-        {
-            KeySize = keySize;
-            IterationCount = iterationCount;
-
-            // create a random salt
-            byte[] saltAsBytes = CreateRandomBytes(keySize / 8);
-            Salt = BitConverter.ToString(saltAsBytes).Replace("-", "");
-
-            byte[] ivAsBytes = CreateRandomBytes(InitializationVectorSizeInBytes);
-            Iv = BitConverter.ToString(ivAsBytes).Replace("-", "");
-        }
-        
         private byte[] CreateRandomBytes(int bits)
         {
             using (var random = RandomNumberGenerator.Create())
             {
-                byte[] bytes = new byte[bits];
+                var bytes = new byte[bits];
                 random.GetBytes(bytes);
 
                 return bytes;
             }
-        }
-
-        public AesEncryptionStrategy(int keySize, int iterationCount, string salt, string iv, string passphrase) : base(passphrase)
-        {
-            this.KeySize = keySize;
-            this.IterationCount = iterationCount;
-            this.Salt = salt;
-            this.Iv = iv;
         }
 
         public override string Decrypt(string ciphertext)
@@ -74,9 +72,9 @@ namespace Structurizr.Encryption
             string plaintext;
             byte[] decryptedBytes;
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                using (Aes aes = Aes.Create())
+                using (var aes = Aes.Create())
                 {
                     aes.KeySize = KeySize;
                     aes.BlockSize = 128;
@@ -92,7 +90,7 @@ namespace Structurizr.Encryption
 
                     using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
                     {
-                        byte[] bytesToBeDecrypted = Convert.FromBase64String(ciphertext);
+                        var bytesToBeDecrypted = Convert.FromBase64String(ciphertext);
                         cs.Write(bytesToBeDecrypted, 0, bytesToBeDecrypted.Length);
                     }
 
@@ -109,9 +107,9 @@ namespace Structurizr.Encryption
             string ciphertext = null;
             byte[] encryptedBytes;
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                using (Aes aes = Aes.Create())
+                using (var aes = Aes.Create())
                 {
                     aes.KeySize = KeySize;
                     aes.BlockSize = 128;
@@ -127,9 +125,10 @@ namespace Structurizr.Encryption
 
                     using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write))
                     {
-                        byte[] plaintextAsBytes = Encoding.UTF8.GetBytes(plaintext);
+                        var plaintextAsBytes = Encoding.UTF8.GetBytes(plaintext);
                         cs.Write(plaintextAsBytes, 0, plaintextAsBytes.Length);
                     }
+
                     encryptedBytes = ms.ToArray();
                     ciphertext = Convert.ToBase64String(encryptedBytes);
                 }
@@ -140,15 +139,14 @@ namespace Structurizr.Encryption
 
         private byte[] hexStringToByteArray(string hex)
         {
-            byte[] bytes = new byte[hex.Length / 2];
-            for (int i = 0; i < bytes.Length; i++)
+            var bytes = new byte[hex.Length / 2];
+            for (var i = 0; i < bytes.Length; i++)
             {
-                string byteValue = hex.Substring(i * 2, 2);
+                var byteValue = hex.Substring(i * 2, 2);
                 bytes[i] = byte.Parse(byteValue, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
             }
 
             return bytes;
         }
-
     }
 }

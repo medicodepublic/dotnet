@@ -3,19 +3,17 @@ using Xunit;
 
 namespace Structurizr.Core.Tests.View
 {
-
     public class StyleTests
     {
-
-        private Styles _styles = new Styles();
+        private readonly Styles _styles = new Styles();
 
         [Fact]
         public void Test_AddElementStyle_ThrowsAnException_WhenAStyleWithTheSameTagExistsAlready()
         {
             try
             {
-                _styles.Add(new ElementStyle(Tags.SoftwareSystem) { Color = "#ff0000" });
-                _styles.Add(new ElementStyle(Tags.SoftwareSystem) { Color = "#ff0000" });
+                _styles.Add(new ElementStyle(Tags.SoftwareSystem) {Color = "#ff0000"});
+                _styles.Add(new ElementStyle(Tags.SoftwareSystem) {Color = "#ff0000"});
 
                 throw new TestFailedException();
             }
@@ -30,8 +28,8 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                _styles.Add(new RelationshipStyle(Tags.Relationship) { Color = "#ff0000" });
-                _styles.Add(new RelationshipStyle(Tags.Relationship) { Color = "#ff0000" });
+                _styles.Add(new RelationshipStyle(Tags.Relationship) {Color = "#ff0000"});
+                _styles.Add(new RelationshipStyle(Tags.Relationship) {Color = "#ff0000"});
 
                 throw new TestFailedException();
             }
@@ -44,7 +42,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_ClearElementStyles_RemovesAllElementStyles()
         {
-            _styles.Add(new ElementStyle(Tags.SoftwareSystem) { Color = "#ff0000" });
+            _styles.Add(new ElementStyle(Tags.SoftwareSystem) {Color = "#ff0000"});
             Assert.Equal(1, _styles.Elements.Count);
 
             _styles.ClearElementStyles();
@@ -54,13 +52,11 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_ClearRelationshipStyles_RemovesAllRelationshipStyles()
         {
-            _styles.Add(new RelationshipStyle(Tags.Relationship) { Color = "#ff0000" });
+            _styles.Add(new RelationshipStyle(Tags.Relationship) {Color = "#ff0000"});
             Assert.Equal(1, _styles.Relationships.Count);
 
             _styles.ClearRelationshipStyles();
             Assert.Equal(0, _styles.Relationships.Count);
         }
-
     }
-
 }

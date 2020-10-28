@@ -4,14 +4,12 @@ using Xunit;
 
 namespace Structurizr.Core.Tests
 {
-    
     public class DeploymentNodeTests : AbstractTestBase
     {
-    
         [Fact]
         public void Test_CanonicalName_WhenTheDeploymentNodeHasNoParent()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             deploymentNode.Name = "Ubuntu Server";
 
             Assert.Equal("/Deployment/Default/Ubuntu Server", deploymentNode.CanonicalName);
@@ -20,10 +18,10 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_CanonicalName_WhenTheDeploymentNodeHasAParent()
         {
-            DeploymentNode parent = new DeploymentNode();
+            var parent = new DeploymentNode();
             parent.Name = "Ubuntu Server";
 
-            DeploymentNode child = new DeploymentNode();
+            var child = new DeploymentNode();
             child.Name = "Apache Tomcat";
             child.Parent = parent;
 
@@ -33,10 +31,10 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Parent_ReturnsTheParentDeploymentNode()
         {
-            DeploymentNode parent = new DeploymentNode();
+            var parent = new DeploymentNode();
             Assert.Null(parent.Parent);
 
-            DeploymentNode child = new DeploymentNode();
+            var child = new DeploymentNode();
             child.Parent = parent;
             Assert.Same(parent, child.Parent);
         }
@@ -44,22 +42,22 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_RequiredTags()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             Assert.Equal(2, deploymentNode.GetRequiredTags().Count);
         }
 
         [Fact]
         public void Test_Tags()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             Assert.Equal("Element,Deployment Node", deploymentNode.Tags);
         }
 
-        
+
         [Fact]
         public void Test_RemoveTags_DoesNotRemoveRequiredTags()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             Assert.True(deploymentNode.Tags.Contains(Tags.Element));
             Assert.True(deploymentNode.Tags.Contains(Tags.DeploymentNode));
 
@@ -69,13 +67,13 @@ namespace Structurizr.Core.Tests
             Assert.True(deploymentNode.Tags.Contains(Tags.Element));
             Assert.True(deploymentNode.Tags.Contains(Tags.DeploymentNode));
         }
-        
+
         [Fact]
         public void Test_Add_ThrowsAnException_WhenAContainerIsNotSpecified()
         {
             try
             {
-                DeploymentNode deploymentNode = new DeploymentNode();
+                var deploymentNode = new DeploymentNode();
                 deploymentNode.Add(null);
                 throw new TestFailedException();
             }
@@ -88,10 +86,10 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Add_AddsAContainerInstance_WhenAContainerIsSpecified()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "", "");
-            DeploymentNode deploymentNode = Model.AddDeploymentNode("Deployment Node", "", "");
-            ContainerInstance containerInstance = deploymentNode.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "", "");
+            var deploymentNode = Model.AddDeploymentNode("Deployment Node", "", "");
+            var containerInstance = deploymentNode.Add(container);
 
             Assert.NotNull(containerInstance);
             Assert.Same(container, containerInstance.Container);
@@ -103,7 +101,7 @@ namespace Structurizr.Core.Tests
         {
             try
             {
-                DeploymentNode parent = Model.AddDeploymentNode("Parent", "", "");
+                var parent = Model.AddDeploymentNode("Parent", "", "");
                 parent.AddDeploymentNode(null, "", "");
                 throw new TestFailedException();
             }
@@ -116,9 +114,9 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddDeploymentNode_AddsAChildDeploymentNode_WhenANameIsSpecified()
         {
-            DeploymentNode parent = Model.AddDeploymentNode("Parent", "", "");
+            var parent = Model.AddDeploymentNode("Parent", "", "");
 
-            DeploymentNode child = parent.AddDeploymentNode("Child 1", "Description", "Technology");
+            var child = parent.AddDeploymentNode("Child 1", "Description", "Technology");
             Assert.NotNull(child);
             Assert.Equal("Child 1", child.Name);
             Assert.Equal("Description", child.Description);
@@ -136,7 +134,8 @@ namespace Structurizr.Core.Tests
             Assert.Equal(0, child.Properties.Count);
             Assert.True(parent.Children.Contains(child));
 
-            child = parent.AddDeploymentNode("Child 3", "Description", "Technology", 4, DictionaryUtils.Create("name=value"));
+            child = parent.AddDeploymentNode("Child 3", "Description", "Technology", 4,
+                DictionaryUtils.Create("name=value"));
             Assert.NotNull(child);
             Assert.Equal("Child 3", child.Name);
             Assert.Equal("Description", child.Description);
@@ -152,7 +151,7 @@ namespace Structurizr.Core.Tests
         {
             try
             {
-                DeploymentNode deploymentNode = Model.AddDeploymentNode("Deployment Node", "", "");
+                var deploymentNode = Model.AddDeploymentNode("Deployment Node", "", "");
                 deploymentNode.Uses(null, "", "");
                 throw new TestFailedException();
             }
@@ -165,9 +164,9 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Uses_AddsARelationship()
         {
-            DeploymentNode primaryNode = Model.AddDeploymentNode("MySQL - Primary", "", "");
-            DeploymentNode secondaryNode = Model.AddDeploymentNode("MySQL - Secondary", "", "");
-            Relationship relationship = primaryNode.Uses(secondaryNode, "Replicates data to", "Some technology");
+            var primaryNode = Model.AddDeploymentNode("MySQL - Primary", "", "");
+            var secondaryNode = Model.AddDeploymentNode("MySQL - Secondary", "", "");
+            var relationship = primaryNode.Uses(secondaryNode, "Replicates data to", "Some technology");
 
             Assert.NotNull(relationship);
             Assert.Same(primaryNode, relationship.Source);
@@ -181,7 +180,7 @@ namespace Structurizr.Core.Tests
         {
             try
             {
-                DeploymentNode deploymentNode = new DeploymentNode();
+                var deploymentNode = new DeploymentNode();
                 deploymentNode.GetDeploymentNodeWithName(null);
                 throw new TestFailedException();
             }
@@ -194,37 +193,39 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_GetDeploymentNodeWithName_ReturnsNull_WhenThereIsNoDeploymentNodeWithTheSpecifiedName()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             Assert.Null(deploymentNode.GetDeploymentNodeWithName("foo"));
         }
 
         [Fact]
-        public void Test_GetDeploymentNodeWithName_ReturnsTheNamedDeploymentNode_WhenThereIsADeploymentNodeWithTheSpecifiedName()
+        public void
+            Test_GetDeploymentNodeWithName_ReturnsTheNamedDeploymentNode_WhenThereIsADeploymentNodeWithTheSpecifiedName()
         {
-            DeploymentNode parent = Model.AddDeploymentNode("parent", "", "");
-            DeploymentNode child = parent.AddDeploymentNode("child", "", "");
+            var parent = Model.AddDeploymentNode("parent", "", "");
+            var child = parent.AddDeploymentNode("child", "", "");
             Assert.Same(child, parent.GetDeploymentNodeWithName("child"));
         }
-            
+
         [Fact]
         public void Test_GetInfrastructureNodeWithName_ReturnsNull_WhenThereIsNoInfrastructureNodeWithTheSpecifiedName()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             Assert.Null(deploymentNode.GetInfrastructureNodeWithName("foo"));
         }
 
         [Fact]
-        public void Test_GetInfrastructureNodeWithName_ReturnsTheNamedDeploymentNode_WhenThereIsAInfrastructureNodeWithTheSpecifiedName()
+        public void
+            Test_GetInfrastructureNodeWithName_ReturnsTheNamedDeploymentNode_WhenThereIsAInfrastructureNodeWithTheSpecifiedName()
         {
-            DeploymentNode parent = Model.AddDeploymentNode("parent", "", "");
-            InfrastructureNode child = parent.AddInfrastructureNode("child", "", "");
+            var parent = Model.AddDeploymentNode("parent", "", "");
+            var child = parent.AddInfrastructureNode("child", "", "");
             Assert.Same(child, parent.GetInfrastructureNodeWithName("child"));
         }
 
         [Fact]
         public void Test_Instances()
         {
-            DeploymentNode deploymentNode = new DeploymentNode();
+            var deploymentNode = new DeploymentNode();
             deploymentNode.Instances = 8;
 
             Assert.Equal(8, deploymentNode.Instances);
@@ -235,7 +236,7 @@ namespace Structurizr.Core.Tests
         {
             try
             {
-                DeploymentNode deploymentNode = new DeploymentNode();
+                var deploymentNode = new DeploymentNode();
                 deploymentNode.Instances = 0;
                 throw new TestFailedException();
             }
@@ -250,7 +251,7 @@ namespace Structurizr.Core.Tests
         {
             try
             {
-                DeploymentNode deploymentNode = new DeploymentNode();
+                var deploymentNode = new DeploymentNode();
                 deploymentNode.Instances = -1;
                 throw new TestFailedException();
             }
@@ -259,7 +260,5 @@ namespace Structurizr.Core.Tests
                 Assert.Equal("Number of instances must be a positive integer.", ae.Message);
             }
         }
-
     }
-
 }

@@ -2,13 +2,12 @@
 
 namespace Structurizr.Core.Tests
 {
-    
     public class PersonTests
     {
+        private readonly Model model;
+        private readonly Person person;
 
-        private Workspace workspace;
-        private Model model;
-        private Person person;
+        private readonly Workspace workspace;
 
         public PersonTests()
         {
@@ -48,6 +47,5 @@ namespace Structurizr.Core.Tests
             Assert.True(person.Tags.Contains(Tags.Element));
             Assert.True(person.Tags.Contains(Tags.Person));
         }
-
     }
 }

@@ -6,83 +6,66 @@ using Structurizr.Util;
 
 namespace Structurizr
 {
-
     /// <summary>
-    /// The configuration associated with a set of views.
+    ///     The configuration associated with a set of views.
     /// </summary>
     [DataContract]
     public sealed class ViewConfiguration
     {
+        private string[] _themes;
 
         internal ViewConfiguration()
         {
-            this.Styles = new Styles();
-            this.Branding = new Branding();
-            this.Terminology = new Terminology();
+            Styles = new Styles();
+            Branding = new Branding();
+            Terminology = new Terminology();
         }
 
         [DataMember(Name = "styles", EmitDefaultValue = false)]
         public Styles Styles { get; internal set; }
 
-        private string[] _themes;
-        
         public string Theme
         {
             get
             {
                 if (_themes != null && _themes.Length > 0)
-                {
                     return _themes[0];
-                }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
-            
+
             set
             {
                 if (value != null && value.Trim().Length > 0)
                 {
                     if (Url.IsUrl(value))
-                    {
-                        _themes = new string[]{ value.Trim() };
-                    }
-                    else {
+                        _themes = new[] {value.Trim()};
+                    else
                         throw new ArgumentException(value + " is not a valid URL.");
-                    }
                 }
             }
         }
-        
+
         [DataMember(Name = "themes", EmitDefaultValue = false)]
         public string[] Themes
         {
-            get { return _themes; }
+            get => _themes;
             set
             {
-                List<string> list = new List<string>(); 
+                var list = new List<string>();
                 if (value != null)
-                {
-                    foreach (string theme in value)
-                    {
+                    foreach (var theme in value)
                         if (value != null && theme.Trim().Length > 0)
                         {
                             if (Url.IsUrl(theme))
-                            {
                                 list.Add(theme.Trim());
-                            }
-                            else {
+                            else
                                 throw new ArgumentException(value + " is not a valid URL.");
-                            }
                         }
-                    }
-                }
 
                 _themes = list.ToArray();
             }
         }
-        
+
         [DataMember(Name = "branding", EmitDefaultValue = false)]
         public Branding Branding { get; internal set; }
 
@@ -90,7 +73,7 @@ namespace Structurizr
         public Terminology Terminology { get; internal set; }
 
         /// <summary>
-        /// The type of symbols to use when rendering metadata.
+        ///     The type of symbols to use when rendering metadata.
         /// </summary>
         [DataMember(Name = "metadataSymbols", EmitDefaultValue = false)]
         public MetadataSymbols? MetadataSymbols { get; set; }
@@ -98,28 +81,24 @@ namespace Structurizr
         [DataMember(Name = "defaultView", EmitDefaultValue = false)]
         public string DefaultView { get; private set; }
 
+        [DataMember(Name = "lastSavedView", EmitDefaultValue = false)]
+        internal string LastSavedView { get; set; }
+
+        [DataMember(Name = "viewSortOrder", EmitDefaultValue = true)]
+        public ViewSortOrder ViewSortOrder { get; set; }
+
         /// <summary>
-        /// Sets the view that should be shown by default.
+        ///     Sets the view that should be shown by default.
         /// </summary>
         /// <param name="view">A View object</param>
         public void SetDefaultView(View view)
         {
-            if (view != null)
-            {
-                this.DefaultView = view.Key;
-            }
+            if (view != null) DefaultView = view.Key;
         }
-
-        [DataMember(Name = "lastSavedView", EmitDefaultValue = false)]
-        internal string LastSavedView { get; set; }
 
         public void CopyConfigurationFrom(ViewConfiguration configuration)
         {
             LastSavedView = configuration.LastSavedView;
         }
-
-        [DataMember(Name = "viewSortOrder", EmitDefaultValue = true)]
-        public ViewSortOrder ViewSortOrder { get; set; }
-
     }
 }

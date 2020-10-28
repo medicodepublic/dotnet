@@ -4,11 +4,8 @@ using Xunit;
 
 namespace Structurizr.Core.Tests
 {
-
     public class DeploymentViewTests : AbstractTestBase
     {
-
-
         private DeploymentView deploymentView;
 
         [Fact]
@@ -29,7 +26,7 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Name_WithASoftwareSystemAndNoEnvironment()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             Assert.Equal("Software System - Deployment", deploymentView.Name);
         }
@@ -37,7 +34,7 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Name_WithASoftwareSystemAndAnEnvironment()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.Environment = "Live";
             Assert.Equal("Software System - Deployment - Live", deploymentView.Name);
@@ -49,7 +46,7 @@ namespace Structurizr.Core.Tests
             try
             {
                 deploymentView = Views.CreateDeploymentView("key", "Description");
-                deploymentView.Add((DeploymentNode)null);
+                deploymentView.Add(null);
                 throw new TestFailedException();
             }
             catch (ArgumentException ae)
@@ -64,7 +61,7 @@ namespace Structurizr.Core.Tests
             try
             {
                 deploymentView = Views.CreateDeploymentView("key", "Description");
-                deploymentView.Add((Relationship)null);
+                deploymentView.Add((Relationship) null);
                 throw new TestFailedException();
             }
             catch (ArgumentException ae)
@@ -95,10 +92,10 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllDeploymentNodes_DoesNothing_WhenThereNoDeploymentNodesForTheDeploymentEnvironment()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNode = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            ContainerInstance containerInstance = deploymentNode.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNode = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var containerInstance = deploymentNode.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.Environment = "Live";
@@ -107,12 +104,13 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void Test_AddAllDeploymentNodes_AddsDeploymentNodesAndContainerInstances_WhenThereAreTopLevelDeploymentNodesWithContainerInstances()
+        public void
+            Test_AddAllDeploymentNodes_AddsDeploymentNodesAndContainerInstances_WhenThereAreTopLevelDeploymentNodesWithContainerInstances()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNode = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            ContainerInstance containerInstance = deploymentNode.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNode = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var containerInstance = deploymentNode.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.AddAllDeploymentNodes();
@@ -122,13 +120,15 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void Test_AddAllDeploymentNodes_AddsDeploymentNodesAndContainerInstances_WhenThereAreChildDeploymentNodesWithContainerInstances()
+        public void
+            Test_AddAllDeploymentNodes_AddsDeploymentNodesAndContainerInstances_WhenThereAreChildDeploymentNodesWithContainerInstances()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            DeploymentNode deploymentNodeChild = deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            ContainerInstance containerInstance = deploymentNodeChild.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var deploymentNodeChild =
+                deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var containerInstance = deploymentNodeChild.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.AddAllDeploymentNodes();
@@ -141,15 +141,15 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAllDeploymentNodes_AddsDeploymentNodesAndContainerInstancesOnlyForTheSoftwareSystemInScope()
         {
-            SoftwareSystem softwareSystem1 = Model.AddSoftwareSystem("Software System 1", "");
-            Container container1 = softwareSystem1.AddContainer("Container 1", "Description", "Technology");
-            DeploymentNode deploymentNode1 = Model.AddDeploymentNode("Deployment Node 1", "Description", "Technology");
-            ContainerInstance containerInstance1 = deploymentNode1.Add(container1);
+            var softwareSystem1 = Model.AddSoftwareSystem("Software System 1", "");
+            var container1 = softwareSystem1.AddContainer("Container 1", "Description", "Technology");
+            var deploymentNode1 = Model.AddDeploymentNode("Deployment Node 1", "Description", "Technology");
+            var containerInstance1 = deploymentNode1.Add(container1);
 
-            SoftwareSystem softwareSystem2 = Model.AddSoftwareSystem("Software System 2", "");
-            Container container2 = softwareSystem2.AddContainer("Container 2", "Description", "Technology");
-            DeploymentNode deploymentNode2 = Model.AddDeploymentNode("Deployment Node 2", "Description", "Technology");
-            ContainerInstance containerInstance2 = deploymentNode2.Add(container2);
+            var softwareSystem2 = Model.AddSoftwareSystem("Software System 2", "");
+            var container2 = softwareSystem2.AddContainer("Container 2", "Description", "Technology");
+            var deploymentNode2 = Model.AddDeploymentNode("Deployment Node 2", "Description", "Technology");
+            var containerInstance2 = deploymentNode2.Add(container2);
 
             // two containers from different software systems on the same deployment node
             deploymentNode1.Add(container2);
@@ -165,11 +165,12 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddDeploymentNode_AddsTheParentToo()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            DeploymentNode deploymentNodeChild = deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            ContainerInstance containerInstance = deploymentNodeChild.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var deploymentNodeChild =
+                deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var containerInstance = deploymentNodeChild.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.Add(deploymentNodeChild);
@@ -185,7 +186,7 @@ namespace Structurizr.Core.Tests
             try
             {
                 deploymentView = Views.CreateDeploymentView("deployment", "Description");
-                deploymentView.AddAnimation((ContainerInstance[])null);
+                deploymentView.AddAnimation((ContainerInstance[]) null);
                 throw new TestFailedException();
             }
             catch (ArgumentException ae)
@@ -200,7 +201,7 @@ namespace Structurizr.Core.Tests
             try
             {
                 deploymentView = Views.CreateDeploymentView("deployment", "Description");
-                deploymentView.AddAnimation((InfrastructureNode[])null);
+                deploymentView.AddAnimation((InfrastructureNode[]) null);
                 throw new TestFailedException();
             }
             catch (ArgumentException ae)
@@ -215,7 +216,7 @@ namespace Structurizr.Core.Tests
             try
             {
                 deploymentView = Views.CreateDeploymentView("deployment", "Description");
-                deploymentView.AddAnimation((ContainerInstance[])null, (InfrastructureNode[])null);
+                deploymentView.AddAnimation(null, (InfrastructureNode[]) null);
                 throw new TestFailedException();
             }
             catch (ArgumentException ae)
@@ -227,16 +228,16 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAnimationStep()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container webApplication = softwareSystem.AddContainer("Web Application", "Description", "Technology");
-            Container database = softwareSystem.AddContainer("Database", "Description", "Technology");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var webApplication = softwareSystem.AddContainer("Web Application", "Description", "Technology");
+            var database = softwareSystem.AddContainer("Database", "Description", "Technology");
             webApplication.Uses(database, "Reads from and writes to", "JDBC/HTTPS");
 
-            DeploymentNode developerLaptop = Model.AddDeploymentNode("Developer Laptop", "Description", "Technology");
-            DeploymentNode apacheTomcat = developerLaptop.AddDeploymentNode("Apache Tomcat", "Description", "Technology");
-            DeploymentNode oracle = developerLaptop.AddDeploymentNode("Oracle", "Description", "Technology");
-            ContainerInstance webApplicationInstance = apacheTomcat.Add(webApplication);
-            ContainerInstance databaseInstance = oracle.Add(database);
+            var developerLaptop = Model.AddDeploymentNode("Developer Laptop", "Description", "Technology");
+            var apacheTomcat = developerLaptop.AddDeploymentNode("Apache Tomcat", "Description", "Technology");
+            var oracle = developerLaptop.AddDeploymentNode("Oracle", "Description", "Technology");
+            var webApplicationInstance = apacheTomcat.Add(webApplication);
+            var databaseInstance = oracle.Add(database);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.Add(developerLaptop);
@@ -244,14 +245,14 @@ namespace Structurizr.Core.Tests
             deploymentView.AddAnimation(webApplicationInstance);
             deploymentView.AddAnimation(databaseInstance);
 
-            Animation step1 = deploymentView.Animations.First(step => step.Order == 1);
+            var step1 = deploymentView.Animations.First(step => step.Order == 1);
             Assert.Equal(3, step1.Elements.Count);
             Assert.True(step1.Elements.Contains(developerLaptop.Id));
             Assert.True(step1.Elements.Contains(apacheTomcat.Id));
             Assert.True(step1.Elements.Contains(webApplicationInstance.Id));
             Assert.Equal(0, step1.Relationships.Count);
 
-            Animation step2 = deploymentView.Animations.First(step => step.Order == 2);
+            var step2 = deploymentView.Animations.First(step => step.Order == 2);
             Assert.Equal(2, step2.Elements.Count);
             Assert.True(step2.Elements.Contains(oracle.Id));
             Assert.True(step2.Elements.Contains(databaseInstance.Id));
@@ -262,23 +263,23 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_AddAnimationStep_IgnoresContainerInstancesThatDoNotExistInTheView()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container webApplication = softwareSystem.AddContainer("Web Application", "Description", "Technology");
-            Container database = softwareSystem.AddContainer("Database", "Description", "Technology");
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var webApplication = softwareSystem.AddContainer("Web Application", "Description", "Technology");
+            var database = softwareSystem.AddContainer("Database", "Description", "Technology");
             webApplication.Uses(database, "Reads from and writes to", "JDBC/HTTPS");
 
-            DeploymentNode developerLaptop = Model.AddDeploymentNode("Developer Laptop", "Description", "Technology");
-            DeploymentNode apacheTomcat = developerLaptop.AddDeploymentNode("Apache Tomcat", "Description", "Technology");
-            DeploymentNode oracle = developerLaptop.AddDeploymentNode("Oracle", "Description", "Technology");
-            ContainerInstance webApplicationInstance = apacheTomcat.Add(webApplication);
-            ContainerInstance databaseInstance = oracle.Add(database);
+            var developerLaptop = Model.AddDeploymentNode("Developer Laptop", "Description", "Technology");
+            var apacheTomcat = developerLaptop.AddDeploymentNode("Apache Tomcat", "Description", "Technology");
+            var oracle = developerLaptop.AddDeploymentNode("Oracle", "Description", "Technology");
+            var webApplicationInstance = apacheTomcat.Add(webApplication);
+            var databaseInstance = oracle.Add(database);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.Add(apacheTomcat);
 
             deploymentView.AddAnimation(webApplicationInstance, databaseInstance);
 
-            Animation step1 = deploymentView.Animations.First(step => step.Order == 1);
+            var step1 = deploymentView.Animations.First(step => step.Order == 1);
             Assert.Equal(3, step1.Elements.Count);
             Assert.True(step1.Elements.Contains(developerLaptop.Id));
             Assert.True(step1.Elements.Contains(apacheTomcat.Id));
@@ -287,20 +288,21 @@ namespace Structurizr.Core.Tests
         }
 
         [Fact]
-        public void Test_AddAnimationStep_ThrowsAnException_WhenContainerInstancesAreSpecifiedButNoneOfThemExistInTheView()
+        public void
+            Test_AddAnimationStep_ThrowsAnException_WhenContainerInstancesAreSpecifiedButNoneOfThemExistInTheView()
         {
             try
             {
-                SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-                Container webApplication = softwareSystem.AddContainer("Web Application", "Description", "Technology");
-                Container database = softwareSystem.AddContainer("Database", "Description", "Technology");
+                var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+                var webApplication = softwareSystem.AddContainer("Web Application", "Description", "Technology");
+                var database = softwareSystem.AddContainer("Database", "Description", "Technology");
                 webApplication.Uses(database, "Reads from and writes to", "JDBC/HTTPS");
 
-                DeploymentNode developerLaptop = Model.AddDeploymentNode("Developer Laptop", "Description", "Technology");
-                DeploymentNode apacheTomcat = developerLaptop.AddDeploymentNode("Apache Tomcat", "Description", "Technology");
-                DeploymentNode oracle = developerLaptop.AddDeploymentNode("Oracle", "Description", "Technology");
-                ContainerInstance webApplicationInstance = apacheTomcat.Add(webApplication);
-                ContainerInstance databaseInstance = oracle.Add(database);
+                var developerLaptop = Model.AddDeploymentNode("Developer Laptop", "Description", "Technology");
+                var apacheTomcat = developerLaptop.AddDeploymentNode("Apache Tomcat", "Description", "Technology");
+                var oracle = developerLaptop.AddDeploymentNode("Oracle", "Description", "Technology");
+                var webApplicationInstance = apacheTomcat.Add(webApplication);
+                var databaseInstance = oracle.Add(database);
 
                 deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
 
@@ -316,12 +318,13 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Remove_RemovesTheInfrastructureNode()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            DeploymentNode deploymentNodeChild = deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            InfrastructureNode infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
-            ContainerInstance containerInstance = deploymentNodeChild.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var deploymentNodeChild =
+                deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
+            var containerInstance = deploymentNodeChild.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.AddAllDeploymentNodes();
@@ -337,12 +340,13 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Remove_RemovesTheContainerInstance()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            DeploymentNode deploymentNodeChild = deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            InfrastructureNode infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
-            ContainerInstance containerInstance = deploymentNodeChild.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var deploymentNodeChild =
+                deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
+            var containerInstance = deploymentNodeChild.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.AddAllDeploymentNodes();
@@ -358,12 +362,13 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Remove_RemovesTheDeploymentNodeAndChildren()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            DeploymentNode deploymentNodeChild = deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            InfrastructureNode infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
-            ContainerInstance containerInstance = deploymentNodeChild.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var deploymentNodeChild =
+                deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
+            var containerInstance = deploymentNodeChild.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.AddAllDeploymentNodes();
@@ -377,12 +382,13 @@ namespace Structurizr.Core.Tests
         [Fact]
         public void Test_Remove_RemovesTheChildDeploymentNodeAndChildren()
         {
-            SoftwareSystem softwareSystem = Model.AddSoftwareSystem("Software System", "");
-            Container container = softwareSystem.AddContainer("Container", "Description", "Technology");
-            DeploymentNode deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            DeploymentNode deploymentNodeChild = deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
-            InfrastructureNode infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
-            ContainerInstance containerInstance = deploymentNodeChild.Add(container);
+            var softwareSystem = Model.AddSoftwareSystem("Software System", "");
+            var container = softwareSystem.AddContainer("Container", "Description", "Technology");
+            var deploymentNodeParent = Model.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var deploymentNodeChild =
+                deploymentNodeParent.AddDeploymentNode("Deployment Node", "Description", "Technology");
+            var infrastructureNode = deploymentNodeChild.AddInfrastructureNode("Infrastructure Node");
+            var containerInstance = deploymentNodeChild.Add(container);
 
             deploymentView = Views.CreateDeploymentView(softwareSystem, "deployment", "Description");
             deploymentView.AddAllDeploymentNodes();
@@ -391,6 +397,5 @@ namespace Structurizr.Core.Tests
             deploymentView.Remove(deploymentNodeParent);
             Assert.Equal(0, deploymentView.Elements.Count);
         }
-
     }
 }

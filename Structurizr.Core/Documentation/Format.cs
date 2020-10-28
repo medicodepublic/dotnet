@@ -2,9 +2,7 @@
 {
     public enum Format
     {
-
         Markdown,
         AsciiDoc
-
     }
 }

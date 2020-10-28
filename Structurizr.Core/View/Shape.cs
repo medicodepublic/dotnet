@@ -2,7 +2,6 @@
 {
     public enum Shape
     {
-
         Box,
         RoundedBox,
         Circle,
@@ -17,6 +16,5 @@
         MobileDevicePortrait,
         MobileDeviceLandscape,
         Component
-
     }
 }

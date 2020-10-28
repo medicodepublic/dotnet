@@ -8,7 +8,7 @@ namespace Structurizr.Core.Tests.View
         [Fact]
         public void Test_AutomaticLayout()
         {
-            AutomaticLayout automaticLayout = new AutomaticLayout(RankDirection.LeftRight, 100, 200, 300, true);
+            var automaticLayout = new AutomaticLayout(RankDirection.LeftRight, 100, 200, 300, true);
 
             Assert.Equal(RankDirection.LeftRight, automaticLayout.RankDirection);
             Assert.Equal(100, automaticLayout.RankSeparation);
@@ -22,7 +22,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                AutomaticLayout automaticLayout = new AutomaticLayout();
+                var automaticLayout = new AutomaticLayout();
                 automaticLayout.RankSeparation = -100;
                 throw new TestFailedException();
             }
@@ -37,7 +37,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                AutomaticLayout automaticLayout = new AutomaticLayout();
+                var automaticLayout = new AutomaticLayout();
                 automaticLayout.NodeSeparation = -100;
                 throw new TestFailedException();
             }
@@ -52,7 +52,7 @@ namespace Structurizr.Core.Tests.View
         {
             try
             {
-                AutomaticLayout automaticLayout = new AutomaticLayout();
+                var automaticLayout = new AutomaticLayout();
                 automaticLayout.EdgeSeparation = -100;
                 throw new TestFailedException();
             }
@@ -61,6 +61,5 @@ namespace Structurizr.Core.Tests.View
                 Assert.Equal("The edge separation must be a positive integer.", iae.Message);
             }
         }
-        
     }
 }

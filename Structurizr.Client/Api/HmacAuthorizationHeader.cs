@@ -5,9 +5,8 @@ namespace Structurizr.Api
 {
     internal class HmacAuthorizationHeader
     {
-
-        private string apiKey;
-        private string hmac;
+        private readonly string apiKey;
+        private readonly string hmac;
 
         public HmacAuthorizationHeader(string apiKey, string hmac)
         {
@@ -19,6 +18,5 @@ namespace Structurizr.Api
         {
             return apiKey + ":" + Convert.ToBase64String(Encoding.UTF8.GetBytes(hmac));
         }
-
     }
 }
